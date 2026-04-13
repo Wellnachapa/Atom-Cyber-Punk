@@ -1,2 +1,2 @@
-# Atom-e-Cyber-Punk
+# Atom-Cyber-Punk
 Futuro scrip do projeto individual SPtech
