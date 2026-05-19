@@ -331,7 +331,7 @@ input {
 
 .simulador .container {
   flex-direction: column;
-  overflow: scroll; 
+  /*overflow: scroll; */
   height: var(--tamanho-simulador);
 }
 
