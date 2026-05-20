@@ -1,61 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>CyberAtom Index
-    
-    </title>
-
-    <script src="./js/sessao.js"></script>
-
-    <link rel="stylesheet" href="./css/estilo.css">
-    <link rel="icon" href="./assets/icon/favicon2.ico">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberAtom — Dois Futuros, Um Destino</title>
+ 
+  <!-- Fontes -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Bebas+Neue&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+ 
+  <!-- Estilos -->
+  <link rel="stylesheet" href="/home/guest/Desktop/Atom-Cyber-Punk/CyberAtomPunk/web-data-viz/public/css/estilo.css">
 </head>
-
 <body>
-    <div class="header">
-      <div class="container">
-        <div class="box">
-        <img src="assets/imgs/logo.png"> </div>
-        <div class="jhon">
-        <img src="assets/imgs/iconjhonny.png"></div>
-        <ul class="navbar">
-          <li class="agora">
-            <a href="#">Inicial</a>
-          </li>
-          <li>
-            <a href="simulador.html">Saber Mais</a>
-          </li>
-          <li>|</li>
-          <li>
-            <a href="login.html">Login</a>
-          </li>
-          <li>
-            <a href="cadastro.html">Cadastro</a>
-          </li>
-        </ul>
+ 
+  <!-- ==================== NAVEGAÇÃO ==================== -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="logo-cyber"></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="home">[ HOME ]</a></li>
+      <li><a href="faq.html" class="faq">FAQ</a></li>
+      <li><a href="login.html" class="login">LOGIN</a></li>
+      <li><a href="cadastro.html" class="register">CADASTRO</a></li>
+    </ul>
+  </nav>
+ 
+  <main>
+ 
+    <!-- ==================== HERO DIVIDIDO ==================== -->
+    <section class="hero">
+ 
+      <!-- LADO CYBERPUNK -->
+      <div class="cyber-side">
+        <div class="scanline"></div>
+        <div class="cyber-circuit">
+          01001110 01100101 01101111<br>
+          10110100 01001110 01100101<br>
+          00110001 10110100 01001110<br>
+          01101101 00110001 10110100<br>
+          01001110 01101101 00110001
+        </div>
+ 
+        <p class="side-tag">FUTURO DISTÓPICO I</p>
+ 
+        <h1 class="side-title glitch" data-text="CYBER PUNK">CYBER<br></h1>
+        <p class="side-subtitle">// 2077 A.D. — NIGHT CITY PROTOCOL</p>
+ 
+        <p class="side-desc">
+          Megacorporações controlam tudo. A tecnologia avançou além da humanidade — 
+          implantes neurais, realidade aumentada e inteligência artificial dominam cada 
+          aspecto da vida. O corpo é apenas hardware, enquanto a alma é apenas um dado a ser vendido.
+        </p>
+ 
+        <blockquote class="side-quote">
+          "Wake the f*ck up, Samurai.<br>
+          We have a city to burn."<br>
+          <br>— Johnny Silverhand, Cyberpunk 2077
+        </blockquote>
+ 
+        <div class="stats-row">
+          <div class="stat">
+            <span class="stat-value">6</span>
+            <span class="stat-label">Megacorp</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">∞</span>
+            <span class="stat-label">Implantes</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">0</span>
+            <span class="stat-label">Liberdade</span>
+          </div>
+        </div>
+ 
+        <a href="#" class="side-cta">Explorar o Futuro Digital →</a>
       </div>
-    </div>
-  
-    <div class="banner">
-      <div class="container">
-        <p>Acorde <span>samurai!</span> A <span>guerra</span> nunca <span>muda</span>.</p>
+ 
+      <!-- DIVISOR CENTRAL -->
+      <div class="hero-divider"></div>
+ 
+      <!-- LADO ATOMPUNK -->
+      <div class="atom-side">
+        <div class="scanline"></div>
+        <div class="atom-orbit">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="50" cy="50" rx="45" ry="20" stroke="#ffd700" stroke-width="1.5"/>
+            <ellipse cx="50" cy="50" rx="45" ry="20" stroke="#ffd700" stroke-width="1.5" transform="rotate(60 50 50)"/>
+            <ellipse cx="50" cy="50" rx="45" ry="20" stroke="#ffd700" stroke-width="1.5" transform="rotate(120 50 50)"/>
+            <circle cx="50" cy="50" r="6" fill="#ffd700"/>
+          </svg>
+        </div>
+ 
+        <p class="side-tag">FUTURO DISTÓPICO II</p>
+ 
+        <h1 class="side-title">ATOM<br>PUNK</h1>
+        <p class="side-subtitle">// ERA ATÔMICA — VAULT-TEC APPROVED</p>
+ 
+        <p class="side-desc">
+          O átomo prometeu um paraíso. Em vez disso, entregou cinzas. 
+          Retrofuturismo em um mundo destruído pela guerra nuclear — arranha-céus 
+          art déco, robôs vintage e a ilusão de um amanhã que jamais chegou.
+        </p>
+ 
+        <blockquote class="side-quote">
+          "War. War never changes.<br>
+          The Romans waged war to gather slaves<br>
+          and wealth. America wages war..."<br>
+          <br>— Narrador, Fallout
+        </blockquote>
+ 
+        <div class="stats-row">
+          <div class="stat">
+            <span class="stat-value">2077</span>
+            <span class="stat-label">Ano da Bomba</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">13</span>
+            <span class="stat-label">Vaults</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">☢</span>
+            <span class="stat-label">Radiação</span>
+          </div>
+        </div>
+ 
+        <a href="#" class="side-cta">Explorar as Ruínas →</a>
       </div>
-    </div>
-  
+ 
+    </section>
+ 
+    <!-- ==================== SEÇÃO CONTRASTE ==================== -->
+    <section class="contrast-section">
+      <div class="contrast-header">
+        <h2><span>CYBER</span> &nbsp;vs&nbsp; <span>ATOM</span></h2>
+        <p>// DOIS FUTUROS — UMA ESCOLHA — NENHUMA ESPERANÇA</p>
+      </div>
+ 
+      <div class="contrast-grid">
+ 
+        <!-- Coluna Cyberpunk -->
+        <div class="contrast-col">
+          <div class="contrast-item">
+            <h3>Tecnologia</h3>
+            <p>Implantes cibernéticos, IA, redes neurais e megacorporações</p>
+          </div>
+          <div class="contrast-item">
+            <h3>Cenário</h3>
+            <p>Metrópoles neon, favelas digitais, arranha-céus de vidro</p>
+          </div>
+          <div class="contrast-item">
+            <h3>Ameaça</h3>
+            <p>Controle corporativo, perda de identidade, cyberpsicose</p>
+          </div>
+          <div class="contrast-item">
+            <h3>Estética</h3>
+            <p>Neon azul, preto, luzes holográficas e concreto sujo</p>
+          </div>
+        </div>
+ 
+        <!-- Coluna central (decoração) -->
+        <div class="contrast-center">
+          <div class="contrast-dot blue"></div>
+          <div class="contrast-line"></div>
+          <div class="contrast-dot yellow"></div>
+          <div class="contrast-line"></div>
+          <div class="contrast-dot blue"></div>
+          <div class="contrast-line"></div>
+          <div class="contrast-dot yellow"></div>
+          <div class="contrast-line"></div>
+          <div class="contrast-dot blue"></div>
+        </div>
+ 
+        <!-- Coluna Atompunk -->
+        <div class="contrast-col">
+          <div class="contrast-item">
+            <h3>Tecnologia</h3>
+            <p>Energia atômica, robôs retrô, eletrônicos valvulados</p>
+          </div>
+          <div class="contrast-item">
+            <h3>Cenário</h3>
+            <p>Ermos radioativos, bunkers, cidades destruídas por bombas</p>
+          </div>
+          <div class="contrast-item">
+            <h3>Ameaça</h3>
+            <p>Radiação, mutações, escassez de recursos e caos social</p>
+          </div>
+          <div class="contrast-item">
+            <h3>Estética</h3>
+            <p>Amarelo irradiado, ferrugem, art déco e otimismo falso</p>
+          </div>
+        </div>
+ 
+      </div>
+    </section>
+ 
+  </main>
+ 
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer-strip">
+    <span class="blue">◈ CYBERPUNK 2077 © CD PROJEKT RED</span>
+    <span>|</span>
+    <span>CYBERATOM © 2026</span>
+    <span>|</span>
+    <span class="yellow">FALLOUT © BETHESDA SOFTWORKS ◈</span>
+  </footer>
+ 
+  <!-- Cursor customizado -->
+  <div class="cursor cursor-left" id="cursorL"></div>
+  <div class="cursor cursor-right" id="cursorR"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
 
-  
-    <div class="footer">
-      <div class="container">
-        <h4>Feito com amor por Wellington &hearts; SPTech &copy; 2026</h4>
-        <span class="version">v1.0.0</span>
-      </div>
-    </div>
-  </body>
-
+  <!-- Script -->
+  <script src="js/sessao.js"></script>
+</body>
 </html>
