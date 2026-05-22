@@ -34,34 +34,6 @@ function finalizarAguardar(texto) {
     }
 }
 
-// --- CURSOR DUPLO ANIMADO ---
-const cursorL   = document.getElementById('cursorL');
-const cursorR   = document.getElementById('cursorR');
-const cursorDot = document.getElementById('cursorDot');
-
-let mouseX = 0, mouseY = 0;
-let lx = 0, ly = 0, rx = 0, ry = 0;
-
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursorDot.style.left = mouseX + 'px';
-  cursorDot.style.top  = mouseY + 'px';
-});
-
-function animCursors() {
-  lx += (mouseX - lx) * 0.12;
-  ly += (mouseY - ly) * 0.12;
-  rx += (mouseX - rx) * 0.08;
-  ry += (mouseY - ry) * 0.08;
-
-  cursorL.style.left = lx + 'px';
-  cursorL.style.top  = ly + 'px';
-  cursorR.style.left = rx + 'px';
-  cursorR.style.top  = ry + 'px';
-
-  requestAnimationFrame(animCursors);
-}
 animCursors();
 
 // --- EFEITO FLICKER NO TÍTULO ATOMPUNK ---

@@ -12,9 +12,7 @@
   --divider: #1a1a1a;
 }
  
-/* ============================================
-   RESET & BASE
-   ============================================ */
+/*RESET & BASE*/
 * { margin: 0; padding: 0; box-sizing: border-box; }
  
 html { scroll-behavior: smooth; }
@@ -24,10 +22,10 @@ body {
   color: var(--white);
   font-family: 'Rajdhani', sans-serif;
   overflow-x: hidden;
-  cursor: none;
+  /*cursor: none;*/
 }
  
-/*CURSOR BONITÃO*/
+/*CURSOR BONITÃO
 .cursor {
   position: fixed;
   width: 16px;
@@ -62,7 +60,7 @@ body {
   pointer-events: none;
   z-index: 10000;
   transform: translate(-50%, -50%);
-}
+}*/
  
 /*NAVEGAÇÃO*/
 nav {
@@ -556,9 +554,7 @@ nav {
 .contrast-col:last-child .contrast-item { border-color: #ffd70022; border-left: none; }
 .contrast-col:last-child .contrast-item h3 { color: var(--atom-yellow); }
  
-/* ============================================
-   FOOTER
-   ============================================ */
+/*Rodapé*/
 .footer-strip {
   height: 60px;
   display: flex;
@@ -576,9 +572,7 @@ nav {
 .footer-strip .blue { color: var(--cyber-blue); opacity: 0.5; }
 .footer-strip .yellow { color: var(--atom-yellow); opacity: 0.5; }
  
-/* ============================================
-   ANIMAÇÕES DE ENTRADA
-   ============================================ */
+/*Animações para entrada*/
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(90px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -613,11 +607,9 @@ nav {
   animation: fadeInUp 0.8s ease 0.2s both, flicker 6s ease 3s infinite;
 }
  
-/* ============================================
-   DECORAÇÕES
-   ============================================ */
+/*Decorações*/
  
-/* Órbita atômica */
+/* Órbita atômica mto foda*/
 .atom-orbit {
   position: absolute;
   bottom: 625px;
@@ -645,9 +637,7 @@ nav {
   animation: fadeInUp 1s ease 1s both;
 }
  
-/* ============================================
-   RESPONSIVIDADE
-   ============================================ */
+/*Responsabilidade*/
 @media (max-width: 900px) {
   .hero                { grid-template-columns: 1fr; }
   .hero-divider        { display: none; }
@@ -659,4 +649,180 @@ nav {
   .contrast-grid       { grid-template-columns: 1fr; }
   .contrast-center     { display: none; }
 }
+
+/*Cadastro*/
  
+.cadastro-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+ 
+.cadastro-card {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 40px;
+  border: 1px solid #ffd70033;
+  background: #080800;
+  position: relative;
+  overflow: visible;
+}
+ 
+.cadastro-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, #ffd70012 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+ 
+.cadastro-card::after {
+  content: '';
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffd70014 0%, transparent 70%);
+  pointer-events: none;
+}
+ 
+.atom-orbit-cadastro {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+  opacity: 0.7;
+  position: relative;
+  z-index: 1;
+}
+ 
+.atom-orbit-cadastro svg {
+  animation: spin 10s linear infinite;
+}
+ 
+.formulario {
+  width: 100%;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+ 
+.campo {
+  margin-bottom: 18px;
+}
+ 
+.campo span {
+  display: block;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  color: var(--atom-yellow-dark);
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+ 
+.campo input {
+  width: 100%;
+  background: rgba(255, 215, 0, 0.04);
+  border: 1px solid #ffd70033;
+  color: var(--white);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.88rem;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+  letter-spacing: 0.05em;
+}
+ 
+.campo input::placeholder {
+  color: #555;
+}
+ 
+.campo input:focus {
+  border-color: var(--atom-yellow);
+  background: rgba(255, 215, 0, 0.07);
+  box-shadow: 0 0 16px var(--atom-yellow-glow);
+}
+ 
+.card_erro {
+  display: none;
+  width: 100%;
+  border: 1px solid #ff444466;
+  background: rgba(255, 68, 68, 0.08);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  color: #ff4444;
+  letter-spacing: 0.05em;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+ 
+.card_erro.success {
+  border-color: #44ff9966;
+  background: rgba(68, 255, 153, 0.06);
+  color: #44ff99;
+}
+ 
+.divider-cadastro {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--atom-yellow-dark), transparent);
+  opacity: 0.3;
+  margin: 24px 0;
+  position: relative;
+  z-index: 1;
+}
+ 
+.login-link {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: #555;
+  letter-spacing: 0.05em;
+  position: relative;
+  z-index: 1;
+}
+ 
+.login-link a {
+  color: var(--atom-yellow);
+  text-decoration: none;
+  transition: text-shadow 0.3s;
+}
+ 
+.login-link a:hover {
+  text-shadow: 0 0 12px var(--atom-yellow);
+}
+ 
+.side-tag, .side-title, .side-subtitle, .side-quote, .stats-row {
+  position: relative;
+  z-index: 1;
+}
+.cadastro-card .side-title {
+  color: transparent;
+  text-shadow: none;
+  animation: fadeInUp 0.8s ease 0.2s both, flicker 6s ease 3s infinite;
+}
+
+.cadastro-card .side-title.glitch::before {
+  color: var(--cyber-blue);
+  text-shadow: 0 0 40px var(--cyber-blue), 0 0 80px #0044ff44;
+  animation: glitch1 4s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+}
+
+.cadastro-card .side-title.glitch::after {
+  color: var(--atom-yellow);
+  text-shadow: 0 0 40px var(--atom-yellow);
+  animation: glitch2 4s infinite;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+}
