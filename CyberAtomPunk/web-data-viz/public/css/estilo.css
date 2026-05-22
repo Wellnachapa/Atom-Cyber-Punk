@@ -1,8 +1,3 @@
-/* ============================================
-   CYBERATOM — Stylesheet
-   Paleta: Azul (#00d4ff) | Amarelo (#ffd700) | Preto (#000)
-   ============================================ */
- 
 :root {
   --cyber-blue: #00d5ff;
   --cyber-blue-dark: #11b8ff;
@@ -32,9 +27,7 @@ body {
   cursor: none;
 }
  
-/* ============================================
-   CURSOR CUSTOMIZADO
-   ============================================ */
+/*CURSOR BONITÃO*/
 .cursor {
   position: fixed;
   width: 16px;
@@ -71,9 +64,7 @@ body {
   transform: translate(-50%, -50%);
 }
  
-/* ============================================
-   NAVEGAÇÃO
-   ============================================ */
+/*NAVEGAÇÃO*/
 nav {
   position: fixed;
   top: 0;
@@ -138,9 +129,7 @@ nav {
 .nav-links a.register { background: var(--atom-yellow); color: var(--black); font-weight: bold; }
 .nav-links a.register:hover { box-shadow: 0 0 30px var(--atom-yellow); transform: translateY(-1px); }
  
-/* ============================================
-   HERO — DIVISÃO CENTRAL
-   ============================================ */
+/*HERO DIVISÃO DO MEIO */
 .hero {
   min-height: 100vh;
   display: grid;
@@ -176,9 +165,7 @@ nav {
   border: 1px solid #333;
 }
  
-/* ============================================
-   LADO CYBERPUNK (ESQUERDO)
-   ============================================ */
+/*LADO CYBERPUNK (ESQUERO)*/
 .cyber-side {
   background: var(--black);
   display: flex;
@@ -213,9 +200,7 @@ nav {
   pointer-events: none;
 }
  
-/* ============================================
-   LADO ATOMPUNK (DIREITO)
-   ============================================ */
+/*LADO ATOMPUNK (DIREITO)*/
 .atom-side {
   background: #080800;
   display: flex;
@@ -249,9 +234,7 @@ nav {
   pointer-events: none;
 }
  
-/* ============================================
-   SCANLINES
-   ============================================ */
+/*SCANLINES*/
 .scanline {
   position: absolute;
   inset: 0;
@@ -270,10 +253,6 @@ nav {
   0%   { background-position: 0 0; }
   100% { background-position: 0 100px; }
 }
- 
-/* ============================================
-   ELEMENTOS DAS SEÇÕES
-   ============================================ */
  
 /* Tag de identificação */
 .side-tag {
@@ -641,9 +620,9 @@ nav {
 /* Órbita atômica */
 .atom-orbit {
   position: absolute;
-  bottom: 40px;
+  bottom: 625px;
   right: 40px;
-  width: 100px;
+  width: 160px;
   height: 100px;
   opacity: 0.15;
 }

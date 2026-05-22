@@ -1,2 +1,3 @@
-# Atom-Cyber
-Futuro script do projeto individual SPtech
+# CyberAtom
+Futuro script do projeto individual SpTech
+
