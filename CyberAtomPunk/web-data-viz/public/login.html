@@ -5,164 +5,117 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>CyberAtom | Login</title>
-
     <script src="./js/sessao.js"></script>
-
     <link rel="stylesheet" href="./css/estilo.css">
     <link rel="icon" href="./assets/icon/favicon2.ico">
     <link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
 
 <body>
-    <!--Navegação-->
-  <nav>
-    <a href="#" class="nav-logo">
-      <div class="logo-cyber"></div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="index.html" class="home">[ HOME ]</a></li>
-      <li><a href="faq.html" class="faq">FAQ</a></li>
-      <li><a href="login.html" class="login">LOGIN</a></li>
-      <li><a href="cadastro.html" class="register">CADASTRO</a></li>
-    </ul>
-  </nav>
-<div class="cadastro-wrapper">
-    <div class="cadastro-card">
+    <nav>
+        <a href="#" class="nav-logo">
+            <div class="logo-cyber"></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="home">[ HOME ]</a></li>
+            <li><a href="faq.html" class="faq">FAQ</a></li>
+            <li><a href="login.html" class="login">LOGIN</a></li>
+            <li><a href="cadastro.html" class="register">CADASTRO</a></li>
+        </ul>
+    </nav>
 
-      <div class="scanline"></div>
+    <div class="cadastro-wrapper">
+        <div class="cadastro-card">
 
-      <div class="atom-orbit-cadastro">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="50" cy="50" rx="45" ry="20" stroke="#ffd700" stroke-width="1.5"/>
-          <ellipse cx="50" cy="50" rx="45" ry="20" stroke="#ffd700" stroke-width="1.5" transform="rotate(60 50 50)"/>
-          <ellipse cx="50" cy="50" rx="45" ry="20" stroke="#ffd700" stroke-width="1.5" transform="rotate(120 50 50)"/>
-          <circle cx="50" cy="50" r="6" fill="#ffd700"/>
-        </svg>
-      </div>
+            <div class="scanline"></div>
 
-      <p class="side-tag">Garanta o seu futuro hoje!</p>
-      <h1 class="side-title glitch" data-text="LOGIN">LOGIN</h1>
-      <p class="side-subtitle">// ENTRE PARA FAZER O NOSSO QUIZ!</p>
+            <div class="atom-orbit-cadastro">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="50" cy="50" rx="45" ry="20" stroke="#ffd700" stroke-width="1.5"/>
+                    <ellipse cx="50" cy="50" rx="45" ry="20" stroke="#ffd700" stroke-width="1.5" transform="rotate(60 50 50)"/>
+                    <ellipse cx="50" cy="50" rx="45" ry="20" stroke="#ffd700" stroke-width="1.5" transform="rotate(120 50 50)"/>
+                    <circle cx="50" cy="50" r="6" fill="#ffd700"/>
+                </svg>
+            </div>
 
+            <p class="side-tag">Garanta o seu futuro hoje!</p>
+            <h1 class="side-title glitch" data-text="LOGIN">LOGIN</h1>
+            <p class="side-subtitle">// ENTRE PARA FAZER O NOSSO QUIZ!</p>
 
-      <div class="divider-cadastro"></div>
+            <div class="divider-cadastro"></div>
 
-
-    <div class="login">
-        <div class="alerta_erro">
             <div class="card_erro" id="cardErro">
                 <span id="mensagem_erro"></span>
             </div>
-        </div>
-        <div class="container">
-            <div class="card card-login">
-                <h2>Bem vindo de volta samurai</h2> <br>
-                <div class="formulario">
-                    <div class="campo">
-                        <span>E-mail:</span>
-                        <input id="email_input" type="text" placeholder="Login">
-                    </div>
-                    <div class="campo">
-                        <span>Senha:</span>
-                        <input id="senha_input" type="password" placeholder="******">
-                    </div>
-                    <button class="botao" onclick="entrar()">Entrar</button>
-                </div>
 
-                <div id="div_aguardar" class="loading-div">
-                    <img src="./assets/circle-loading.gif" id="loading-gif">
+            <div class="formulario">
+                <p class="side-tag" style="justify-content: center; margin-bottom: 20px;">Bem vindo de volta, samurai</p>
+                <div class="campo">
+                    <span>E-mail:</span>
+                    <input id="email_input" type="text" placeholder="samurai@vault.com">
                 </div>
-
-                <div id="div_erros_login"></div>
+                <div class="campo">
+                    <span>Senha:</span>
+                    <input id="senha_input" type="password" placeholder="******">
+                </div>
+                <button class="side-cta" onclick="entrar()">ENTRAR</button>
             </div>
+
+            <div class="divider-cadastro"></div>
+            <p class="login-link">Não possui uma conta? <a href="cadastro.html">→ CADASTRAR</a></p>
+
         </div>
     </div>
 
-    <!--footer inicio-->
     <footer class="footer-strip">
-    <span class="blue">◈ CYBERPUNK 2077 © CD PROJEKT RED</span>
-    <span>|</span>
-    <span>CYBERATOM © 2026</span>
-    <span>|</span>
-    <span class="yellow">FALLOUT © BETHESDA SOFTWORKS ◈</span>
-  </footer>
+        <span class="blue">◈ CYBERPUNK 2077 © CD PROJEKT RED</span>
+        <span>|</span>
+        <span>CYBERATOM © 2026</span>
+        <span>|</span>
+        <span class="yellow">FALLOUT © BETHESDA SOFTWORKS ◈</span>
+    </footer>
 
-</body>
+    <script>
+        function entrar() {
+            var emailVar = email_input.value;
+            var senhaVar = senha_input.value;
 
-</html>
-
-<script>
-
-
-    function entrar() {
-        aguardar();
-
-        var emailVar = email_input.value;
-        var senhaVar = senha_input.value;
-
-        if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            finalizarAguardar();
-            return false;
-        }
-        else {
-            setInterval(sumirMensagem, 5000)
-        }
-
-        console.log("FORM LOGIN: ", emailVar);
-        console.log("FORM SENHA: ", senhaVar);
-
-        fetch("/usuarios/autenticar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                emailServer: emailVar,
-                senhaServer: senhaVar
-            })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
-
-            if (resposta.ok) {
-                console.log(resposta);
-
-                resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-                    sessionStorage.EMAIL_USUARIO = json.email;
-                    sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
-
-                    setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
-                    }, 1000); // apenas para exibir o loading
-
-                });
-
-            } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-                    finalizarAguardar(texto);
-                });
+            if (emailVar == "" || senhaVar == "") {
+                mostrarErro("// ERRO: Todos os campos são obrigatórios.");
+                return false;
             }
 
-        }).catch(function (erro) {
-            console.log(erro);
-        })
+            fetch("/usuarios/autenticar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    emailServer: emailVar,
+                    senhaServer: senhaVar
+                })
+            }).then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json().then(json => {
+                        sessionStorage.EMAIL_USUARIO = json.email;
+                        sessionStorage.NOME_USUARIO  = json.nome;
+                        sessionStorage.ID_USUARIO    = json.id;
+                        sessionStorage.AQUARIOS      = JSON.stringify(json.aquarios);
+                        window.location = "./dashboard/cards.html";
+                    });
+                } else {
+                    resposta.text().then(texto => mostrarErro("// ERRO: " + texto));
+                }
+            }).catch(() => mostrarErro("// ERRO: Sem conexão com o servidor."));
 
-        return false;
-    }
+            return false;
+        }
 
-    function sumirMensagem() {
-        cardErro.style.display = "none"
-    }
-
-</script>
+        function mostrarErro(msg) {
+            cardErro.className = 'card_erro';
+            mensagem_erro.innerHTML = msg;
+            cardErro.style.display = "block";
+            setTimeout(() => cardErro.style.display = "none", 5000);
+        }
+    </script>
+</body>
+</html>

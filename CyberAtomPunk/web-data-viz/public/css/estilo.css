@@ -826,3 +826,71 @@ nav {
   animation: glitch2 4s infinite;
   clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
 }
+button.side-cta {
+  background: transparent;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto; /* centraliza */
+  color: var(--atom-yellow);
+}
+
+.cadastro-card .side-tag {
+  color: var(--atom-yellow);
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.cadastro-card .side-tag::before {
+  display: none;
+}
+.faq-card {
+    width: 100%;
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 48px 40px;
+    border: 1px solid #00d4ff33;
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Grade digital de fundo */
+.faq-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(0deg, transparent, transparent 39px, #00d4ff08 39px, #00d4ff08 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 39px, #00d4ff06 39px, #00d4ff06 40px);
+    pointer-events: none;
+}
+
+/* Brilho radial */
+.faq-card::after {
+    content: '';
+    position: absolute;
+    bottom: -200px;
+    left: -200px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #00d4ff15 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.faq-card .side-tag        { color: var(--cyber-blue); }
+.faq-card .side-tag::before { background: var(--cyber-blue); }
+.faq-card .side-tag::after  { background: var(--cyber-blue); }
+.faq-card .side-title       { color: var(--cyber-blue); text-shadow: 0 0 40px var(--cyber-blue), 0 0 80px #0044ff44; }
+.faq-card .divider-cadastro { background: linear-gradient(to right, transparent, var(--cyber-blue-dark), transparent); }
+
+.faq-card .faq-item         { border-left-color: var(--cyber-blue); background: rgba(0, 213, 255, 0.03); }
+.faq-card .faq-pergunta     { color: var(--cyber-blue); }
+.faq-card .login-link a     { color: var(--cyber-blue); }
+.faq-card .login-link a:hover { text-shadow: 0 0 12px var(--cyber-blue); }
+.faq-card {
+    align-items: flex-start;
+    text-align: left;
+}
