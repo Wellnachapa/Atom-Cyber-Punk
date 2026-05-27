@@ -208,13 +208,13 @@
             // Total gasto = soma de todos os atributos
             var totalGasto = strength + perception + endurance + charisma + intelligence + agility + luck;
 
-            // Pontos restantes = 33 - total gasto
-            var pontosRestantes = 33 - totalGasto;
+            // Pontos restantes = 40 - total gasto
+            var pontosRestantes = 40 - totalGasto;
 
             // Mostra na tela
             document.getElementById('pontos-restantes').textContent = pontosRestantes;
 
-            // Se chegou a 33, desabilita os sliders para não passar
+            // Se chegou a 40, desabilita os sliders para não passar
             if (pontosRestantes === 0) {
                 document.getElementById('slider-strength').disabled = true;
                 document.getElementById('slider-perception').disabled = true;
@@ -249,9 +249,9 @@
             // Calcula o total
             var totalPontos = strength + perception + endurance + charisma + intelligence + agility + luck;
 
-            // Validação: Tem que ser EXATAMENTE 33 pontos
-            if (totalPontos !== 33) {
-                document.getElementById('mensagem').innerHTML = '<p class="mensagem-erro">❌ Erro: Você deve distribuir EXATAMENTE 33 pontos! Tem ' + totalPontos + '</p>';
+            // Validação: Tem que ser EXATAMENTE 40 pontos
+            if (totalPontos !== 40) {
+                document.getElementById('mensagem').innerHTML = '<p class="mensagem-erro">❌ Erro: Você deve distribuir EXATAMENTE 40 pontos! Tem ' + totalPontos + '</p>';
                 return false;
             }
 
