@@ -37,9 +37,11 @@ function finalizarAguardar(texto) {
 // Efeito flicker CyberPunk
 const atomTitle = document.querySelector('.atom-side .side-title');
 
-setInterval(() => {
-  if (Math.random() < 0.05) {
-    atomTitle.style.opacity = '0.6';
-    setTimeout(() => atomTitle.style.opacity = '1', 80);
-  }
-}, 200);
+if (atomTitle) {
+    setInterval(() => {
+        if (Math.random() < 0.05) {
+            atomTitle.style.opacity = '0.6';
+            setTimeout(() => atomTitle.style.opacity = '1', 80);
+        }
+    }, 200);
+}
