@@ -34,9 +34,7 @@ function finalizarAguardar(texto) {
     }
 }
 
-animCursors();
-
-// --- EFEITO FLICKER NO TÍTULO ATOMPUNK ---
+// Efeito flicker CyberPunk
 const atomTitle = document.querySelector('.atom-side .side-title');
 
 setInterval(() => {

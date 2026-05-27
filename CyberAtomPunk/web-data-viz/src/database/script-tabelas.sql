@@ -12,9 +12,9 @@ USE cyberAtom;
 
 CREATE TABLE usuario (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50), not null,
-	email VARCHAR(50), not null,
-	senha VARCHAR(50), not null
+	nome VARCHAR(50) not null,
+	email VARCHAR(50) not null,
+	senha VARCHAR(50) not null
 );
 
 CREATE TABLE aviso (
@@ -57,7 +57,7 @@ select*from usuario;
 
 -- QUIZ
 
---Perfil SPECIAL
+-- Perfil SPECIAL
 CREATE TABLE perfil_special (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	fk_usuario INT NOT NULL UNIQUE,  -- Cada usuario so pode ter um perfil
@@ -73,7 +73,7 @@ CREATE TABLE perfil_special (
 	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
 );
 
---Perguntas
+-- Perguntas
 CREATE TABLE pergunta (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	titulo VARCHAR(500) NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE pergunta (
 	tipo VARCHAR(50) NOT NULL DEFAULT 'multipla_escolha'
 );
 
---Opções de resposta
+-- Opções de resposta
 CREATE TABLE opcao (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	descricao VARCHAR(300) NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE opcao (
 	FOREIGN KEY (fk_pergunta) REFERENCES pergunta(id)
 );
 
---Resultado
+-- Resultado
 CREATE TABLE resultado_quiz (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	fk_usuario INT NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE resultado_quiz (
 	FOREIGN KEY (fk_opcao) REFERENCES opcao(id)
 );
 
---Inserir perguntas
+-- Inserir perguntas
 
 -- INSERIR PERGUNTAS DE EXEMPLO
 INSERT INTO pergunta (titulo, descricao, tipo) VALUES
@@ -113,29 +113,24 @@ INSERT INTO pergunta (titulo, descricao, tipo) VALUES
 ('Uma negociação tensa', 'Um comerciante oferece um produto ilegal. Como você reage?', 'multipla_escolha'),
 ('Um salto perigoso', 'Você precisa atravessar um abismo. Qual é sua estratégia?', 'multipla_escolha');
 
---PERGUNTA 1 (enigma)
+-- PERGUNTA 1 (enigma)
 INSERT INTO opcao (descricao, fk_pergunta, atributo_requerido, pontos_necessarios) VALUES
 ('Força bruta - quebrar a porta', 1, 'strength', 6),
 ('Observar e encontrar uma alavanca', 1, 'perception', 7),
 ('Usar conhecimento antigo para desvendar', 1, 'intelligence', 8),
 ('Tentar sorte e pedir ajuda aos deuses', 1, 'luck', 5);
 
---PERGUNTA 2 (negociação)
+-- PERGUNTA 2 (negociação)
 INSERT INTO opcao (descricao, fk_pergunta, atributo_requerido, pontos_necessarios) VALUES
 ('Ameaçar violentamente', 2, 'strength', 7),
 ('Convencer com palavras', 2, 'charisma', 8),
 ('Enganar com promessas falsas', 2, 'intelligence', 6),
 ('Fingir interesse e sair de fininho', 2, 'agility', 7);
 
---PERGUNTA 3 (salto)
+-- PERGUNTA 3 (salto)
 INSERT INTO opcao (descricao, fk_pergunta, atributo_requerido, pontos_necessarios) VALUES
 ('Pular direto com força bruta', 3, 'strength', 8),
 ('Analisar a distância com precisão', 3, 'perception', 6),
 ('Usar corda e equipamento', 3, 'intelligence', 5),
 ('Pular com agilidade pura', 3, 'agility', 9),
 ('Confiar na sorte', 3, 'luck', 10);
-CREATE TABLE pergunta (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(500) NOT NULL,
-    tipo VARCHAR(50) NOT NULL  -- 'multipla_escolha'
-);

@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body onload="listar()">
+<body>
   <!--Logo-->
   <nav>
     <a href="#" class="nav-logo">
@@ -97,34 +97,20 @@
   <script src="js/sessao.js"></script>
   <script>
 
-    let listaEmpresasCadastradas = [];
-
     function cadastrar() {
       var nomeVar             = nome_input.value;
       var emailVar            = email_input.value;
       var senhaVar            = senha_input.value;
       var confirmacaoSenhaVar = confirmacao_senha_input.value;
-      var codigoVar           = codigo_input.value;
-      var idEmpresaVincular;
 
-      if (!nomeVar || !emailVar || !senhaVar || !confirmacaoSenhaVar || !codigoVar) {
-        mostrarErro("// ERRO: Todos os campos são obrigatórios.");
+      if (!nomeVar || !emailVar || !senhaVar || !confirmacaoSenhaVar) {
+        mostrarErro("Erro! Todos os campos são obrigatórios, bobão!");
         return false;
       }
 
       if (senhaVar !== confirmacaoSenhaVar) {
-        mostrarErro("// ERRO: As senhas não coincidem.");
+        mostrarErro("Erro! As senhas não coincidem, digite certo!");
         return false;
-      }
-
-      for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-        if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
-          idEmpresaVincular = listaEmpresasCadastradas[i].id;
-          break;
-        } else if (i === listaEmpresasCadastradas.length - 1) {
-          mostrarErro("// ERRO: Código de ativação inválido.");
-          return false;
-        }
       }
 
       fetch("/usuarios/cadastrar", {
@@ -133,28 +119,20 @@
         body: JSON.stringify({
           nomeServer: nomeVar,
           emailServer: emailVar,
-          senhaServer: senhaVar,
-          idEmpresaVincularServer: idEmpresaVincular
+          senhaServer: senhaVar
         }),
       })
         .then(resposta => {
           if (resposta.ok) {
-            mostrarSucesso("// AGENTE REGISTRADO. Redirecionando...");
+            mostrarSucesso("Samurai registrado. Redirecionando...");
             setTimeout(() => window.location = "login.html", 2000);
           } else {
-            mostrarErro("// ERRO: Falha ao registrar agente.");
+            mostrarErro("Erro! Samurai não é digno ainda! (Falha ao registrar)");
           }
         })
-        .catch(() => mostrarErro("// ERRO: Sem conexão com o servidor."));
+        .catch(() => mostrarErro("Erro! Sem conexão em Nightcity! (Servidor off)"));
 
       return false;
-    }
-
-    function listar() {
-      fetch("/empresas/listar", { method: "GET" })
-        .then(r => r.json())
-        .then(empresas => empresas.forEach(e => listaEmpresasCadastradas.push(e)))
-        .catch(err => console.log("#ERRO:", err));
     }
 
     function mostrarErro(msg) {
