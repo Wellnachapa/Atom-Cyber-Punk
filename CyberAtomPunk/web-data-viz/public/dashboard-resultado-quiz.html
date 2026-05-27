@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberAtom | Resultado Quiz</title>
+    
+    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="stylesheet" href="./css/quiz.css">
+    <link rel="icon" href="./assets/icon/favicon2.ico">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    
+    <!-- IMPORTAR A BIBLIOTECA CHART.JS PARA FAZER OS GRÁFICOS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+
+<body onload="validarSessao(); carregarResultado()">
+
+    <nav>
+        <a href="#" class="nav-logo">
+            <div class="logo-cyber"></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="home">[ HOME ]</a></li>
+            <li><a href="faq.html" class="faq">FAQ</a></li>
+            <li><a href="login.html" class="login">LOGIN</a></li>
+            <li><a href="cadastro.html" class="register">CADASTRO</a></li>
+        </ul>
+    </nav>
+
+    <div class="dashboard-container">
+        <h1 class="dashboard-titulo">🏁 RESULTADO FINAL</h1>
+        <p class="dashboard-subtitulo">// ANÁLISE DO SEU DESEMPENHO</p>
+
+        <!-- Resultado geral (acertos/erros) -->
+        <div class="resultado-geral">
+            <h2 style="color: #00d4ff;">Desempenho no Quiz</h2>
+            <div class="score-grande" id="acertos-totais">0/0</div>
+            <div class="score-percentual" id="percentual-acertos">0%</div>
+            <p style="color: #888; font-size: 1em;">Questões respondidas corretamente</p>
+        </div>
+
+        <!-- Mostrar o perfil SPECIAL do usuário -->
+        <div style="background: rgba(255, 215, 0, 0.05); padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+            <h3 style="color: #ffd700; text-align: center;">Seu Perfil S.P.E.C.I.A.L</h3>
+            <div class="atributos-display" id="perfil-special-display">
+                <!-- Será preenchido pelo JavaScript -->
+            </div>
+        </div>
+
+        <!-- Os DOIS GRÁFICOS -->
+        <div class="graficos-grid">
+            <!-- GRÁFICO 1: RADAR DO SPECIAL -->
+            <div class="grafico-container">
+                <h3 class="grafico-titulo">📊 Seu S.P.E.C.I.A.L</h3>
+                <div class="grafico">
+                    <!-- Canvas é onde o Chart.js desenha o gráfico -->
+                    <canvas id="graficoRadar"></canvas>
+                </div>
+            </div>
+
+            <!-- GRÁFICO 2: COLUNAS DE ACERTOS/ERROS -->
+            <div class="grafico-container">
+                <h3 class="grafico-titulo">📈 Acertos vs Erros</h3>
+                <div class="grafico">
+                    <canvas id="graficoAcertos"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botões para próximas ações -->
+        <div class="botoes-finais">
+            <button class="botao-acao" onclick="refazerQuiz()">
+                🔄 Refazer Quiz
+            </button>
+            <button class="botao-acao botao-voltar" onclick="voltarHome()">
+                🏠 Voltar ao Home
+            </button>
+        </div>
+    </div>
+
+    <footer class="footer-strip">
+        <span class="blue">◈ CYBERPUNK 2077 © CD PROJEKT RED</span>
+        <span>|</span>
+        <span>CYBERATOM © 2026</span>
+        <span>|</span>
+        <span class="yellow">FALLOUT © BETHESDA SOFTWORKS ◈</span>
+    </footer>
+
+    <script src="./js/sessao.js"></script>
+
+    <script>
+        // ========== VARIÁVEIS GLOBAIS ==========
+        var perfilUsuario = {};      // Guarda o SPECIAL do usuário
+        var resultadoQuiz = {};      // Guarda o resultado (quantas acertou/errou)
+
+
+        // ========== FUNÇÃO 1: CARREGAR O RESULTADO ==========
+        function carregarResultado() {
+            // PASSO 1: Pegar o ID do usuário da URL
+            // Exemplo: dashboard-resultado-quiz.html?usuarioId=1
+            var urlParams = new URLSearchParams(window.location.search);
+            var idUsuario = urlParams.get('usuarioId');
+
+            console.log("ID do usuário recebido:", idUsuario);
+
+            // Se não tem ID, redireciona
+            if (idUsuario == null) {
+                console.log("Erro: ID do usuário não encontrado!");
+                document.querySelector('.dashboard-container').innerHTML = '<p style="color: #ff0000; text-align: center;">Erro ao carregar resultado!</p>';
+                return;
+            }
+
+            // PASSO 2: Pegar o perfil SPECIAL do sessionStorage (foi salvo em quiz-especial.html)
+            perfilUsuario = JSON.parse(sessionStorage.PERFIL_SPECIAL);
+            console.log("Perfil SPECIAL recuperado:", perfilUsuario);
+
+            // PASSO 3: Mostrar o perfil SPECIAL na tela
+            mostrarPerfilSpecial();
+
+            // PASSO 4: Buscar o resultado do quiz no servidor
+            // Esta é a rota GET /perguntas/resultado/:idUsuario que criamos
+            fetch("/perguntas/resultado/" + idUsuario)
+                .then(function(resposta) {
+                    return resposta.json();
+                })
+                .then(function(dados) {
+                    console.log("Resultado recebido do servidor:", dados);
+
+                    // PASSO 5: Guardar o resultado
+                    resultadoQuiz = dados;
+
+                    // PASSO 6: Mostrar os números de acertos/erros
+                    document.getElementById('acertos-totais').textContent = dados.opcoes_certas + '/' + dados.total_opcoes;
+
+                    // Calcular percentual
+                    var percentual = Math.round((dados.opcoes_certas / dados.total_opcoes) * 100);
+                    document.getElementById('percentual-acertos').textContent = percentual + '%';
+
+                    console.log("Acertos:", dados.opcoes_certas);
+                    console.log("Total:", dados.total_opcoes);
+                    console.log("Percentual:", percentual);
+
+                    // PASSO 7: Criar os gráficos
+                    criarGraficoRadar();
+                    criarGraficoAcertos(dados.opcoes_certas, dados.total_opcoes - dados.opcoes_certas);
+                })
+                .catch(function(erro) {
+                    console.log("ERRO ao buscar resultado:", erro);
+                    document.querySelector('.dashboard-container').innerHTML += '<p style="color: #ff0000; text-align: center;">Erro ao carregar resultado!</p>';
+                });
+        }
+
+
+        // ========== FUNÇÃO 2: MOSTRAR PERFIL SPECIAL ==========
+        function mostrarPerfilSpecial() {
+            // Esta função mostra os 7 atributos SPECIAL em cards
+            
+            var atributos = [
+                { nome: 'S', label: 'Strength', valor: perfilUsuario.strength },
+                { nome: 'P', label: 'Perception', valor: perfilUsuario.perception },
+                { nome: 'E', label: 'Endurance', valor: perfilUsuario.endurance },
+                { nome: 'C', label: 'Charisma', valor: perfilUsuario.charisma },
+                { nome: 'I', label: 'Intelligence', valor: perfilUsuario.intelligence },
+                { nome: 'A', label: 'Agility', valor: perfilUsuario.agility },
+                { nome: 'L', label: 'Luck', valor: perfilUsuario.luck }
+            ];
+
+            var html = '';
+
+            // Para CADA atributo, criar um card
+            for (var i = 0; i < atributos.length; i++) {
+                var attr = atributos[i];
+                html += '<div class="atributo-card">';
+                html += '<div class="atributo-nome-small">' + attr.nome + ' - ' + attr.label + '</div>';
+                html += '<div class="atributo-valor-small">' + attr.valor + '</div>';
+                html += '</div>';
+            }
+
+            document.getElementById('perfil-special-display').innerHTML = html;
+        }
+
+
+        // ========== FUNÇÃO 3: CRIAR GRÁFICO RADAR DO SPECIAL ==========
+        function criarGraficoRadar() {
+            // EXPLICAÇÃO DO GRÁFICO RADAR:
+            // Um gráfico radar (também chamado de "spider chart") mostra múltiplas dimensões
+            // Cada ponto é um atributo SPECIAL
+            // Quanto mais perto do centro, menor o valor
+            // Quanto mais perto da borda, maior o valor
+
+            // PASSO 1: Pegar o contexto do canvas (é onde o gráfico vai ser desenhado)
+            var ctx = document.getElementById('graficoRadar').getContext('2d');
+
+            // PASSO 2: Criar um novo gráfico Chart.js
+            var grafico = new Chart(ctx, {
+                // Tipo: 'radar' = gráfico de radar
+                type: 'radar',
+                
+                data: {
+                    // Labels = os nomes dos atributos
+                    labels: ['Strength', 'Perception', 'Endurance', 'Charisma', 'Intelligence', 'Agility', 'Luck'],
+                    
+                    datasets: [{
+                        label: 'Seu S.P.E.C.I.A.L',
+                        
+                        // Data = os valores (quantos pontos em cada atributo)
+                        data: [
+                            perfilUsuario.strength,
+                            perfilUsuario.perception,
+                            perfilUsuario.endurance,
+                            perfilUsuario.charisma,
+                            perfilUsuario.intelligence,
+                            perfilUsuario.agility,
+                            perfilUsuario.luck
+                        ],
+                        
+                        // Cor de fundo (semi-transparente)
+                        backgroundColor: 'rgba(255, 215, 0, 0.3)',
+                        
+                        // Cor da linha (mais opaca)
+                        borderColor: '#ffd700',
+                        
+                        // Espessura da linha
+                        borderWidth: 2,
+                        
+                        // Cor dos pontos
+                        pointBackgroundColor: '#ffd700',
+                        
+                        // Cor da borda dos pontos
+                        pointBorderColor: '#00d4ff',
+                        
+                        // Tamanho dos pontos
+                        pointRadius: 5
+                    }]
+                },
+                
+                options: {
+                    // Responsivo = adapta ao tamanho da tela
+                    responsive: true,
+                    
+                    // Manter proporção
+                    maintainAspectRatio: false,
+                    
+                    // Configurações dos labels (nomes dos atributos)
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffd700',
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        }
+                    },
+                    
+                    // Configuração da escala (de 0 a 10)
+                    scales: {
+                        r: {
+                            // Mínimo: 0, Máximo: 10
+                            min: 0,
+                            max: 10,
+                            
+                            // Cor das linhas da grade
+                            grid: {
+                                color: 'rgba(255, 215, 0, 0.1)'
+                            },
+                            
+                            // Cor dos números da escala
+                            ticks: {
+                                color: '#ffd700'
+                            },
+                            
+                            // Cor da linha da escala
+                            axis: {
+                                color: '#ffd700'
+                            }
+                        }
+                    }
+                }
+            });
+
+            console.log("Gráfico Radar criado!");
+        }
+
+
+        // ========== FUNÇÃO 4: CRIAR GRÁFICO DE COLUNAS (ACERTOS/ERROS) ==========
+        function criarGraficoAcertos(acertos, erros) {
+            // EXPLICAÇÃO DO GRÁFICO DE COLUNAS:
+            // Mostra duas colunas:
+            // - Uma azul para ACERTOS
+            // - Uma vermelha para ERROS
+
+            // PASSO 1: Pegar o contexto do canvas
+            var ctx = document.getElementById('graficoAcertos').getContext('2d');
+
+            // PASSO 2: Criar um novo gráfico Chart.js
+            var grafico = new Chart(ctx, {
+                // Tipo: 'bar' = gráfico de colunas
+                type: 'bar',
+                
+                data: {
+                    // Labels = apenas um (o nome do eixo X)
+                    labels: ['Resultado'],
+                    
+                    datasets: [
+                        {
+                            // Primeira coluna = ACERTOS
+                            label: 'Acertos',
+                            data: [acertos],
+                            backgroundColor: 'rgba(0, 255, 0, 0.7)',  // Verde
+                            borderColor: '#00ff00',
+                            borderWidth: 2
+                        },
+                        {
+                            // Segunda coluna = ERROS
+                            label: 'Erros',
+                            data: [erros],
+                            backgroundColor: 'rgba(255, 0, 0, 0.7)',  // Vermelho
+                            borderColor: '#ff0000',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                
+                options: {
+                    // Responsivo
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    
+                    // Configurações dos labels
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffd700',
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        }
+                    },
+                    
+                    // Configuração dos eixos
+                    scales: {
+                        x: {
+                            // Cor dos labels do eixo X
+                            ticks: {
+                                color: '#ffd700'
+                            },
+                            // Cor da grid
+                            grid: {
+                                color: 'rgba(255, 215, 0, 0.1)'
+                            }
+                        },
+                        y: {
+                            // Começar do 0
+                            beginAtZero: true,
+                            
+                            // Cor dos labels do eixo Y
+                            ticks: {
+                                color: '#ffd700'
+                            },
+                            
+                            // Cor da grid
+                            grid: {
+                                color: 'rgba(255, 215, 0, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            console.log("Gráfico de Acertos criado!");
+        }
+
+
+        // ========== FUNÇÃO 5: REFAZER QUIZ ==========
+        function refazerQuiz() {
+            // Remove o perfil anterior do sessionStorage
+            sessionStorage.removeItem('PERFIL_SPECIAL');
+
+            // Volta para quiz-especial.html para distribuir os pontos novamente
+            window.location = "./quiz-especial.html";
+        }
+
+
+        // ========== FUNÇÃO 6: VOLTAR HOME ==========
+        function voltarHome() {
+            // Volta para a página inicial
+            window.location = "./index.html";
+        }
+    </script>
+
+</body>
+
+</html>

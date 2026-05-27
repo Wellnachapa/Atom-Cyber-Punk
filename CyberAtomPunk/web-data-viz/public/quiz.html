@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberAtom | Quiz</title>
+    
+    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="stylesheet" href="./css/quiz.css">
+    <link rel="icon" href="./assets/icon/favicon2.ico">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+</head>
+
+<body onload="validarSessao(); inicializarQuiz()">
+
+    <nav>
+        <a href="#" class="nav-logo">
+            <div class="logo-cyber"></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="home">[ HOME ]</a></li>
+            <li><a href="faq.html" class="faq">FAQ</a></li>
+            <li><a href="login.html" class="login">LOGIN</a></li>
+            <li><a href="cadastro.html" class="register">CADASTRO</a></li>
+        </ul>
+    </nav>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1 class="quiz-titulo">⚔️ QUIZ</h1>
+            <p class="quiz-progresso">
+                Pergunta <span id="pergunta-atual">1</span> de <span id="total-perguntas">3</span>
+            </p>
+        </div>
+
+        <!-- Aqui vai ser preenchido com as perguntas -->
+        <div id="conteudo-quiz" class="carregando">
+            Carregando perguntas...
+        </div>
+
+        <!-- Botões de navegação -->
+        <div class="botoes-navegacao">
+            <button class="botao-nav" id="botao-anterior" onclick="perguntaAnterior()" disabled>
+                ← Anterior
+            </button>
+            <button class="botao-nav" id="botao-proximo" onclick="proximaPergunta()">
+                Próxima →
+            </button>
+        </div>
+
+        <!-- Se for a última pergunta, mostra botão de finalizar -->
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="botao-nav" id="botao-finalizar" onclick="finalizarQuiz()" style="display: none; background: #ff6b6b;">
+                FINALIZAR🏁
+            </button>
+        </div>
+    </div>
+
+    <footer class="footer-strip">
+        <span class="blue">◈ CYBERPUNK 2077 © CD PROJEKT RED</span>
+        <span>|</span>
+        <span>CYBERATOM © 2026</span>
+        <span>|</span>
+        <span class="yellow">FALLOUT © BETHESDA SOFTWORKS ◈</span>
+    </footer>
+
+    <script src="./js/sessao.js"></script>
+
+    <script>
+        // ===============================================
+        // SISTEMA DE TESTES - FALLOUT SPECIAL SIMULATOR
+        // ===============================================
+        // Variáveis que armazenam o estado da sessão
+
+        var perguntasDoTeste = [];      // Lista de todos os desafios do teste
+        var atributosJogador = {};      // Distribuição SPECIAL escolhida no passo anterior
+        var indicePerguntaAtual = 0;    // Qual pergunta o jogador está vendo (0 = primeira)
+        var idJogador = 0;              // Identificador único do jogador (salvo na sessão de login)
+        var respostasDaJornada = [];    // Histórico de respostas: verdadeiro ou falso para cada pergunta
+
+
+        // Inicia o fluxo do teste e carrega as perguntas do servidor
+        function inicializarQuiz() {
+            // Recuperar ID do jogador (salvo pelo sistema de login)
+            idJogador = sessionStorage.ID_USUARIO;
+
+            // Recuperar atributos SPECIAL do teste anterior (quiz-especial.html)
+            atributosJogador = JSON.parse(sessionStorage.PERFIL_SPECIAL);
+
+            console.log("[FALLOUT] Jogador carregado:", idJogador);
+            console.log("[FALLOUT] Atributos SPECIAL:", atributosJogador);
+
+            // Fazer requisição ao servidor para obter todas as perguntas
+            fetch("/perguntas/listar")
+                .then(function(respostaServidor) {
+                    return respostaServidor.json();
+                })
+                .then(function(perguntas) {
+                    console.log("[FALLOUT] Teste carregado com " + perguntas.length + " desafios");
+
+                    perguntasDoTeste = perguntas;
+                    document.getElementById('total-perguntas').textContent = perguntasDoTeste.length;
+
+                    // Inicializar array de respostas (null = não respondido ainda)
+                    respostasDaJornada = new Array(perguntasDoTeste.length).fill(null);
+
+                    // Exibir o primeiro desafio
+                    mostrarPergunta(0);
+                })
+                .catch(function(erro) {
+                    console.error("[FALLOUT] Falha ao carregar teste:", erro);
+                    document.getElementById('conteudo-quiz').innerHTML = '<p style="color: #ff0000;">⚠️ Erro ao carregar os desafios do teste!</p>';
+                });
+        }
+
+
+        // Exibe a pergunta atual com suas opções de resposta
+        function mostrarPergunta(index) {
+            // Validar índice
+            var perguntaSelecionada = perguntasDoTeste[index];
+            if (perguntaSelecionada == undefined) {
+                console.warn("[FALLOUT] Pergunta índice " + index + " não existe!");
+                return;
+            }
+
+            console.log("[FALLOUT] Exibindo desafio", (index + 1) + "/" + perguntasDoTeste.length);
+
+            // Atualizar interface de progresso
+            document.getElementById('pergunta-atual').textContent = index + 1;
+            indicePerguntaAtual = index;
+
+            // Buscar opções dessa pergunta do servidor
+            fetch("/perguntas/" + perguntaSelecionada.id)
+                .then(function(respostaServidor) {
+                    return respostaServidor.json();
+                })
+                .then(function(opcoesDoServidor) {
+                    console.log("[FALLOUT] Opções carregadas:", opcoesDoServidor);
+
+                    // Construir HTML da pergunta
+                    var template = '<div class="pergunta-container">';
+                    template += '<h2 class="pergunta-titulo">' + perguntaSelecionada.titulo + '</h2>';
+                    template += '<div class="opcoes-container">';
+
+                    // Renderizar cada opção como botão clicável
+                    for (var i = 0; i < opcoesDoServidor.length; i++) {
+                        var opcaoAtual = opcoesDoServidor[i];
+
+                        // Construir evento onclick com parâmetros da opção
+                        template += '<button class="opcao-botao" onclick="responderOpcao(' + perguntaSelecionada.id + ', ' + opcaoAtual.opcao_id + ', \'' + opcaoAtual.atributo_requerido + '\', ' + opcaoAtual.pontos_necessarios + ')">';
+                        template += opcaoAtual.opcao_descricao;
+                        
+                        // Mostrar requisitos de atributos SPECIAL
+                        if (opcaoAtual.atributo_requerido) {
+                            var mapaEmojis = {
+                                'strength': '💪',
+                                'perception': '👁️',
+                                'endurance': '❤️',
+                                'charisma': '😊',
+                                'intelligence': '🧠',
+                                'agility': '🏃',
+                                'luck': '🍀'
+                            };
+                            var emoji = mapaEmojis[opcaoAtual.atributo_requerido] || '?';
+                            template += '<span class="opcao-requisito">[' + emoji + ' ' + opcaoAtual.atributo_requerido + ' ' + opcaoAtual.pontos_necessarios + ']</span>';
+                        }
+
+                        template += '</button>';
+                    }
+
+                    template += '</div>';
+                    template += '</div>';
+
+                    // Mostrar resultado anterior se pergunta já foi respondida
+                    if (respostasDaJornada[index] != null) {
+                        var respostaPrior = respostasDaJornada[index];
+                        
+                        if (respostaPrior.passou) {
+                            template += '<div class="mensagem-resultado resultado-passou">✓ SUCESSO! Seus atributos foram suficientes para este desafio!</div>';
+                        } else {
+                            template += '<div class="mensagem-resultado resultado-falhou">✗ FALHA! Seus atributos não foram suficientes para este desafio!</div>';
+                        }
+                    }
+
+                    // Atualizar DOM com novo conteúdo
+                    document.getElementById('conteudo-quiz').innerHTML = template;
+
+                    // Controlar botões de navegação
+                    document.getElementById('botao-anterior').disabled = (index === 0);
+
+                    // Mostrar botão correto: próximo ou finalizar
+                    if (index < perguntasDoTeste.length - 1) {
+                        document.getElementById('botao-proximo').style.display = 'inline-block';
+                        document.getElementById('botao-finalizar').style.display = 'none';
+                    } else {
+                        document.getElementById('botao-proximo').style.display = 'none';
+                        document.getElementById('botao-finalizar').style.display = 'inline-block';
+                    }
+                })
+                .catch(function(erro) {
+                    console.error("[FALLOUT] Erro ao carregar opções:", erro);
+                    document.getElementById('conteudo-quiz').innerHTML = '<p style="color: #ff0000;">⚠️ Erro ao carregar as opções deste desafio!</p>';
+                });
+        }
+
+
+        // Processa a resposta do jogador e valida contra seus atributos SPECIAL
+        function responderOpcao(idPergunta, idOpcao, atributoRequerido, pontosNecessarios) {
+            console.log("[FALLOUT] Resposta selecionada:");
+            console.log("  Pergunta ID:", idPergunta);
+            console.log("  Opção ID:", idOpcao);
+            console.log("  Atributo:", atributoRequerido);
+            console.log("  Pontos necessários:", pontosNecessarios);
+            console.log("  Atributos do jogador:", atributosJogador);
+
+            // Determinar se o jogador tem pontos suficientes no atributo
+            var pontosDisponivel = 0;
+
+            // null ou undefined = opção sempre bem-sucedida (sem requisitos)
+            if (atributoRequerido && atributoRequerido !== null && atributoRequerido !== 'null') {
+                pontosDisponivel = atributosJogador[atributoRequerido];
+            } else {
+                // Sem requisitos = sempre sucesso
+                pontosDisponivel = 999;
+            }
+
+            console.log("[FALLOUT] Pontos disponíveis no atributo:", pontosDisponivel);
+
+            // Validar: jogador passou se pontos >= necessário
+            var resultadoTeste = (pontosDisponivel >= pontosNecessarios) ? 1 : 0;
+            console.log("[FALLOUT] Resultado:", (resultadoTeste === 1 ? "✓ SUCESSO" : "✗ FALHA"));
+
+            // Armazenar resposta localmente
+            respostasDaJornada[indicePerguntaAtual] = {
+                passou: resultadoTeste,
+                idOpcao: idOpcao,
+                idPergunta: idPergunta,
+                atributoRequerido: atributoRequerido,
+                pontosNecessarios: pontosNecessarios
+            };
+
+            // Enviar dados ao servidor para persistir no banco de dados
+            fetch("/perguntas/responder", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    idUsuario: idJogador,
+                    idPergunta: idPergunta,
+                    idOpcao: idOpcao,
+                    atributoRequerido: atributoRequerido,
+                    pontosNecessarios: pontosNecessarios
+                })
+            })
+            .then(function(respostaServidor) {
+                return respostaServidor.json();
+            })
+            .then(function(dados) {
+                console.log("[FALLOUT] Resposta persistida no servidor", dados);
+                // Atualizar display mostrando o resultado (sem fazer novo fetch)
+                atualizarTelaComResultado();
+            })
+            .catch(function(erro) {
+                console.error("[FALLOUT] Erro ao salvar resposta:", erro);
+            });
+        }
+
+        // Atualiza a exibição com o resultado da resposta anterior (sem fazer novo fetch)
+        function atualizarTelaComResultado() {
+            var resposta = respostasDaJornada[indicePerguntaAtual];
+            if (!resposta) return;
+
+            var mensagem = resposta.passou 
+                ? '<div class="mensagem-resultado resultado-passou">✓ SUCESSO! Seus atributos foram suficientes para este desafio!</div>'
+                : '<div class="mensagem-resultado resultado-falhou">✗ FALHA! Seus atributos não foram suficientes para este desafio!</div>';
+
+            var conteudoAtual = document.getElementById('conteudo-quiz').innerHTML;
+            // Remover mensagem anterior se existir
+            conteudoAtual = conteudoAtual.replace(/<div class="mensagem-resultado .*?<\/div>/g, '');
+            // Adicionar nova mensagem
+            document.getElementById('conteudo-quiz').innerHTML = conteudoAtual + mensagem;
+        }
+
+
+        // Avança para o próximo desafio do teste
+        function proximaPergunta() {
+            // Validar se pergunta atual foi respondida
+            if (respostasDaJornada[indicePerguntaAtual] === null) {
+                alert("⚠️ Você precisa responder este desafio antes de prosseguir!");
+                return;
+            }
+
+            // Verificar se há próxima pergunta
+            if (indicePerguntaAtual < perguntasDoTeste.length - 1) {
+                mostrarPergunta(indicePerguntaAtual + 1);
+            }
+        }
+
+
+        // Volta ao desafio anterior
+        function perguntaAnterior() {
+            if (indicePerguntaAtual > 0) {
+                mostrarPergunta(indicePerguntaAtual - 1);
+            }
+        }
+
+
+        // Finaliza o teste e exibe resultados
+        function finalizarQuiz() {
+            console.log("[FALLOUT] Teste finalizado!");
+            console.log("[FALLOUT] Jornada do jogador:", respostasDaJornada);
+
+            // Redirecionar para tela de resultados com ID do jogador
+            window.location = "./dashboard-resultado-quiz.html?usuarioId=" + idJogador;
+        }
+    </script>
+
+</body>
+
+</html>

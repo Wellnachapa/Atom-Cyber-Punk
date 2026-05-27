@@ -100,7 +100,8 @@
                         sessionStorage.NOME_USUARIO  = json.nome;
                         sessionStorage.ID_USUARIO    = json.id;
                         sessionStorage.AQUARIOS      = JSON.stringify(json.aquarios);
-                        window.location = "./dashboard/cards.html";
+                        // Redirecionar para o QUIZ SPECIAL ao invés do dashboard antigo
+                        window.location = "./quiz-especial.html";
                     });
                 } else {
                     resposta.text().then(texto => mostrarErro("// ERRO: " + texto));

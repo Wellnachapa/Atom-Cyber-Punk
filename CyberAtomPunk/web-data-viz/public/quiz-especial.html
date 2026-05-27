@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberAtom | SPECIAL</title>
+    
+    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="stylesheet" href="./css/quiz.css">
+    <link rel="icon" href="./assets/icon/favicon2.ico">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+</head>
+
+<body onload="validarSessao()">
+
+    <nav>
+        <a href="#" class="nav-logo">
+            <div class="logo-cyber"></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="home">[ HOME ]</a></li>
+            <li><a href="faq.html" class="faq">FAQ</a></li>
+            <li><a href="login.html" class="login">LOGIN</a></li>
+            <li><a href="cadastro.html" class="register">CADASTRO</a></li>
+        </ul>
+    </nav>
+
+    <div class="special-container">
+        <h1 class="special-title">S.P.E.C.I.A.L</h1>
+        <p class="special-subtitle">// DISTRIBUA 33 PONTOS ENTRE 7 ATRIBUTOS</p>
+
+        <!-- Mostra quantos pontos faltam distribuir -->
+        <div class="special-points-display">
+            Pontos restantes: <span id="pontos-restantes">33</span>
+        </div>
+
+        <!-- ========== STRENGTH ========== -->
+        <div class="atributo-grupo">
+            <div class="atributo-label">
+                <span class="atributo-nome">💪 STRENGTH (Força)</span>
+                <span class="atributo-valor" id="valor-strength">1</span>
+            </div>
+            <p class="atributo-descricao">Força física e dano em combate</p>
+            <input 
+                type="range" 
+                id="slider-strength" 
+                class="atributo-slider"
+                min="1" 
+                max="10" 
+                value="1"
+                oninput="atualizarSlider('strength')"
+            >
+        </div>
+
+        <!-- ========== PERCEPTION ========== -->
+        <div class="atributo-grupo">
+            <div class="atributo-label">
+                <span class="atributo-nome">👁️ PERCEPTION (Percepção)</span>
+                <span class="atributo-valor" id="valor-perception">1</span>
+            </div>
+            <p class="atributo-descricao">Capacidade de observação e visão</p>
+            <input 
+                type="range" 
+                id="slider-perception" 
+                class="atributo-slider"
+                min="1" 
+                max="10" 
+                value="1"
+                oninput="atualizarSlider('perception')"
+            >
+        </div>
+
+        <!-- ========== ENDURANCE ========== -->
+        <div class="atributo-grupo">
+            <div class="atributo-label">
+                <span class="atributo-nome">❤️ ENDURANCE (Resistência)</span>
+                <span class="atributo-valor" id="valor-endurance">1</span>
+            </div>
+            <p class="atributo-descricao">Saúde e resistência a danos</p>
+            <input 
+                type="range" 
+                id="slider-endurance" 
+                class="atributo-slider"
+                min="1" 
+                max="10" 
+                value="1"
+                oninput="atualizarSlider('endurance')"
+            >
+        </div>
+
+        <!-- ========== CHARISMA ========== -->
+        <div class="atributo-grupo">
+            <div class="atributo-label">
+                <span class="atributo-nome">😊 CHARISMA (Carisma)</span>
+                <span class="atributo-valor" id="valor-charisma">1</span>
+            </div>
+            <p class="atributo-descricao">Persuasão e liderança</p>
+            <input 
+                type="range" 
+                id="slider-charisma" 
+                class="atributo-slider"
+                min="1" 
+                max="10" 
+                value="1"
+                oninput="atualizarSlider('charisma')"
+            >
+        </div>
+
+        <!-- ========== INTELLIGENCE ========== -->
+        <div class="atributo-grupo">
+            <div class="atributo-label">
+                <span class="atributo-nome">🧠 INTELLIGENCE (Inteligência)</span>
+                <span class="atributo-valor" id="valor-intelligence">1</span>
+            </div>
+            <p class="atributo-descricao">Conhecimento e análise</p>
+            <input 
+                type="range" 
+                id="slider-intelligence" 
+                class="atributo-slider"
+                min="1" 
+                max="10" 
+                value="1"
+                oninput="atualizarSlider('intelligence')"
+            >
+        </div>
+
+        <!-- ========== AGILITY ========== -->
+        <div class="atributo-grupo">
+            <div class="atributo-label">
+                <span class="atributo-nome">🏃 AGILITY (Agilidade)</span>
+                <span class="atributo-valor" id="valor-agility">1</span>
+            </div>
+            <p class="atributo-descricao">Velocidade e reflexos</p>
+            <input 
+                type="range" 
+                id="slider-agility" 
+                class="atributo-slider"
+                min="1" 
+                max="10" 
+                value="1"
+                oninput="atualizarSlider('agility')"
+            >
+        </div>
+
+        <!-- ========== LUCK ========== -->
+        <div class="atributo-grupo">
+            <div class="atributo-label">
+                <span class="atributo-nome">🍀 LUCK (Sorte)</span>
+                <span class="atributo-valor" id="valor-luck">1</span>
+            </div>
+            <p class="atributo-descricao">Sorte e efeitos críticos</p>
+            <input 
+                type="range" 
+                id="slider-luck" 
+                class="atributo-slider"
+                min="1" 
+                max="10" 
+                value="1"
+                oninput="atualizarSlider('luck')"
+            >
+        </div>
+
+        <!-- Botão para confirmar e ir pro quiz -->
+        <button class="botao-distribuir" onclick="salvarPerfilSpecial()">
+            CONFIRMAR E COMEÇAR O QUIZ →
+        </button>
+
+        <!-- Mensagens de erro ou sucesso -->
+        <div id="mensagem"></div>
+    </div>
+
+    <footer class="footer-strip">
+        <span class="blue">◈ CYBERPUNK 2077 © CD PROJEKT RED</span>
+        <span>|</span>
+        <span>CYBERATOM © 2026</span>
+        <span>|</span>
+        <span class="yellow">FALLOUT © BETHESDA SOFTWORKS ◈</span>
+    </footer>
+
+    <script src="./js/sessao.js"></script>
+
+    <script>
+        // ========== EXPLICAÇÃO ==========
+        // Este script faz 3 coisas:
+        // 1. Atualizar os sliders quando o usuário mexe neles
+        // 2. Contar quantos pontos sobraram
+        // 3. Salvar o perfil no banco de dados
+
+        // FUNÇÃO 1: ATUALIZAR SLIDER E PONTOS
+        function atualizarSlider(atributo) {
+            // Pega o valor do slider (quando o usuário mexe)
+            var slider = document.getElementById('slider-' + atributo);
+            var valor = slider.value;
+
+            // Mostra o valor na tela
+            document.getElementById('valor-' + atributo).textContent = valor;
+
+            // Calcula o total de pontos gastos
+            var strength = parseInt(document.getElementById('slider-strength').value);
+            var perception = parseInt(document.getElementById('slider-perception').value);
+            var endurance = parseInt(document.getElementById('slider-endurance').value);
+            var charisma = parseInt(document.getElementById('slider-charisma').value);
+            var intelligence = parseInt(document.getElementById('slider-intelligence').value);
+            var agility = parseInt(document.getElementById('slider-agility').value);
+            var luck = parseInt(document.getElementById('slider-luck').value);
+
+            // Total gasto = soma de todos os atributos
+            var totalGasto = strength + perception + endurance + charisma + intelligence + agility + luck;
+
+            // Pontos restantes = 33 - total gasto
+            var pontosRestantes = 33 - totalGasto;
+
+            // Mostra na tela
+            document.getElementById('pontos-restantes').textContent = pontosRestantes;
+
+            // Se chegou a 33, desabilita os sliders para não passar
+            if (pontosRestantes === 0) {
+                document.getElementById('slider-strength').disabled = true;
+                document.getElementById('slider-perception').disabled = true;
+                document.getElementById('slider-endurance').disabled = true;
+                document.getElementById('slider-charisma').disabled = true;
+                document.getElementById('slider-intelligence').disabled = true;
+                document.getElementById('slider-agility').disabled = true;
+                document.getElementById('slider-luck').disabled = true;
+            } else {
+                // Se ainda sobrou pontos, deixa o usuário mexer
+                document.getElementById('slider-strength').disabled = false;
+                document.getElementById('slider-perception').disabled = false;
+                document.getElementById('slider-endurance').disabled = false;
+                document.getElementById('slider-charisma').disabled = false;
+                document.getElementById('slider-intelligence').disabled = false;
+                document.getElementById('slider-agility').disabled = false;
+                document.getElementById('slider-luck').disabled = false;
+            }
+        }
+
+        // FUNÇÃO 2: SALVAR PERFIL SPECIAL NO BANCO DE DADOS
+        function salvarPerfilSpecial() {
+            // Pega os valores de todos os sliders
+            var strength = parseInt(document.getElementById('slider-strength').value);
+            var perception = parseInt(document.getElementById('slider-perception').value);
+            var endurance = parseInt(document.getElementById('slider-endurance').value);
+            var charisma = parseInt(document.getElementById('slider-charisma').value);
+            var intelligence = parseInt(document.getElementById('slider-intelligence').value);
+            var agility = parseInt(document.getElementById('slider-agility').value);
+            var luck = parseInt(document.getElementById('slider-luck').value);
+
+            // Calcula o total
+            var totalPontos = strength + perception + endurance + charisma + intelligence + agility + luck;
+
+            // Validação: Tem que ser EXATAMENTE 33 pontos
+            if (totalPontos !== 33) {
+                document.getElementById('mensagem').innerHTML = '<p class="mensagem-erro">❌ Erro: Você deve distribuir EXATAMENTE 33 pontos! Tem ' + totalPontos + '</p>';
+                return false;
+            }
+
+            // Pega o ID do usuário do sessionStorage (foi salvo no login)
+            var idUsuario = sessionStorage.ID_USUARIO;
+
+            if (idUsuario == undefined) {
+                document.getElementById('mensagem').innerHTML = '<p class="mensagem-erro">❌ Erro: Usuário não autenticado!</p>';
+                return false;
+            }
+
+            // Prepara os dados para ENVIAR ao backend
+            var dados = {
+                idUsuario: idUsuario,
+                strength: strength,
+                perception: perception,
+                endurance: endurance,
+                charisma: charisma,
+                intelligence: intelligence,
+                agility: agility,
+                luck: luck
+            };
+
+            console.log("Enviando para o servidor:", dados);
+
+            // FETCH = Envia os dados para o servidor
+            // Este comando comunica com a rota POST /perguntas/perfil/criar que criamos
+            fetch("/perguntas/perfil/criar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados)  // Converte o objeto em JSON
+            })
+            .then(function(resposta) {
+                // Se a resposta foi sucesso (status 200-299)
+                if (resposta.ok) {
+                    console.log("Perfil salvo com sucesso!");
+
+                    // Salva no sessionStorage para o quiz usar depois
+                    sessionStorage.PERFIL_SPECIAL = JSON.stringify(dados);
+
+                    document.getElementById('mensagem').innerHTML = '<p class="mensagem-sucesso">✓ Perfil criado! Redirecionando...</p>';
+
+                    // Depois de 2 segundos, vai pro quiz
+                    setTimeout(function() {
+                        window.location = "./quiz.html";
+                    }, 2000);
+                } else {
+                    document.getElementById('mensagem').innerHTML = '<p class="mensagem-erro">❌ Erro ao salvar perfil!</p>';
+                }
+            })
+            .catch(function(erro) {
+                console.log("ERRO:", erro);
+                document.getElementById('mensagem').innerHTML = '<p class="mensagem-erro">❌ Erro: Sem conexão com o servidor!</p>';
+            });
+
+            return false;
+        }
+
+        // Quando a página carrega, mostra quantos pontos restam
+        atualizarSlider('strength');
+    </script>
+
+</body>
+
+</html>

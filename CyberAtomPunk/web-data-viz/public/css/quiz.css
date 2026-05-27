@@ -1,0 +1,551 @@
+/* ============================================
+   QUIZ.CSS - Estilos para o Sistema SPECIAL
+   ============================================ */
+
+/* ============================================
+   QUIZ ESPECIAL (Distribuição de Pontos)
+   ============================================ */
+
+.special-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 40px;
+    background: var(--black-soft);
+    border: 2px solid var(--atom-yellow);
+    border-radius: 10px;
+    box-shadow: 0 0 20px var(--atom-yellow-glow);
+    position: relative;
+    z-index: 1;
+}
+
+.special-title {
+    text-align: center;
+    color: var(--atom-yellow);
+    font-size: 2em;
+    margin-bottom: 10px;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 20px var(--atom-yellow);
+}
+
+.special-subtitle {
+    text-align: center;
+    color: var(--cyber-blue);
+    margin-bottom: 30px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+}
+
+.special-points-display {
+    background: rgba(0, 212, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 1.2em;
+    color: var(--atom-yellow);
+    font-weight: bold;
+    border: 1px solid var(--cyber-blue);
+}
+
+.atributo-grupo {
+    margin-bottom: 25px;
+    background: rgba(255, 215, 0, 0.05);
+    padding: 20px;
+    border-left: 3px solid var(--atom-yellow);
+    border-radius: 5px;
+}
+
+.atributo-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: var(--atom-yellow);
+    font-weight: bold;
+}
+
+.atributo-nome {
+    font-size: 1.1em;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.atributo-valor {
+    color: var(--cyber-blue);
+    font-size: 1.2em;
+}
+
+.atributo-descricao {
+    font-size: 0.9em;
+    color: #888;
+    margin-bottom: 10px;
+    font-style: italic;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.atributo-slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #ff0000, #ffff00, #00ff00);
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.atributo-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--atom-yellow);
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--atom-yellow-glow);
+}
+
+.atributo-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--atom-yellow);
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--atom-yellow-glow);
+    border: none;
+}
+
+.botao-distribuir {
+    width: 100%;
+    padding: 15px;
+    margin-top: 30px;
+    background: linear-gradient(135deg, var(--atom-yellow), #ffaa00);
+    color: var(--black);
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.1em;
+}
+
+.botao-distribuir:hover {
+    background: linear-gradient(135deg, #ffaa00, var(--atom-yellow));
+    box-shadow: 0 0 20px var(--atom-yellow-glow);
+    transform: scale(1.02);
+}
+
+.botao-distribuir:disabled {
+    background: #666;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.mensagem-erro {
+    color: #ff4444;
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.mensagem-sucesso {
+    color: #44ff99;
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* ============================================
+   QUIZ (Perguntas)
+   ============================================ */
+
+.quiz-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 40px;
+    background: var(--black-soft);
+    border: 2px solid var(--cyber-blue);
+    border-radius: 10px;
+    box-shadow: 0 0 20px var(--cyber-blue-glow);
+}
+
+.quiz-header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--atom-yellow);
+    padding-bottom: 20px;
+}
+
+.quiz-titulo {
+    color: var(--cyber-blue);
+    font-size: 2em;
+    margin-bottom: 10px;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 20px var(--cyber-blue);
+}
+
+.quiz-progresso {
+    color: var(--atom-yellow);
+    font-size: 1.1em;
+    font-weight: bold;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.1em;
+}
+
+.pergunta-container {
+    background: rgba(0, 212, 255, 0.05);
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    border-left: 5px solid var(--atom-yellow);
+}
+
+.pergunta-titulo {
+    color: var(--atom-yellow);
+    font-size: 1.3em;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.opcoes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.opcao-botao {
+    padding: 15px 20px;
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--cyber-blue);
+    border: 2px solid var(--cyber-blue);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    text-align: left;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.opcao-botao:hover {
+    background: rgba(0, 212, 255, 0.2);
+    transform: translateX(10px);
+    box-shadow: 0 0 15px var(--cyber-blue-glow);
+}
+
+.opcao-requisito {
+    display: block;
+    font-size: 0.85em;
+    color: var(--atom-yellow);
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.botoes-navegacao {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.botao-nav {
+    padding: 12px 30px;
+    background: var(--atom-yellow);
+    color: var(--black);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.05em;
+}
+
+.botao-nav:hover {
+    background: #ffaa00;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--atom-yellow-glow);
+}
+
+.botao-nav:disabled {
+    background: #666;
+    cursor: not-allowed;
+    opacity: 0.5;
+    transform: scale(1);
+}
+
+.mensagem-resultado {
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.1em;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.resultado-passou {
+    background: rgba(0, 255, 0, 0.2);
+    color: #00ff00;
+    border: 2px solid #00ff00;
+}
+
+.resultado-falhou {
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff0000;
+    border: 2px solid #ff0000;
+}
+
+.carregando {
+    text-align: center;
+    color: var(--cyber-blue);
+    font-size: 1.2em;
+    padding: 50px;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* ============================================
+   DASHBOARD RESULTADO
+   ============================================ */
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 40px;
+    background: var(--black-soft);
+    border: 2px solid var(--atom-yellow);
+    border-radius: 10px;
+    box-shadow: 0 0 30px var(--atom-yellow-glow);
+}
+
+.dashboard-titulo {
+    text-align: center;
+    color: var(--atom-yellow);
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 20px var(--atom-yellow);
+}
+
+.dashboard-subtitulo {
+    text-align: center;
+    color: var(--cyber-blue);
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.1em;
+}
+
+.resultado-geral {
+    background: rgba(255, 215, 0, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    text-align: center;
+    border: 2px solid var(--atom-yellow);
+}
+
+.resultado-geral h2 {
+    color: var(--cyber-blue);
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 20px;
+}
+
+.score-grande {
+    font-size: 3em;
+    color: var(--atom-yellow);
+    font-weight: bold;
+    margin: 20px 0;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.score-percentual {
+    font-size: 2em;
+    color: var(--cyber-blue);
+    margin: 20px 0;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.graficos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.grafico-container {
+    background: rgba(0, 212, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    border: 2px solid var(--cyber-blue);
+}
+
+.grafico-titulo {
+    color: var(--atom-yellow);
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.grafico {
+    position: relative;
+    height: 300px;
+}
+
+.botoes-finais {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.botao-acao {
+    padding: 15px 30px;
+    background: var(--atom-yellow);
+    color: var(--black);
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.05em;
+}
+
+.botao-acao:hover {
+    background: #ffaa00;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--atom-yellow-glow);
+}
+
+.botao-voltar {
+    background: #444;
+    color: var(--white);
+}
+
+.botao-voltar:hover {
+    background: #666;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.atributos-display {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.atributo-card {
+    background: rgba(255, 215, 0, 0.15);
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    border: 2px solid var(--atom-yellow);
+}
+
+.atributo-nome-small {
+    color: var(--atom-yellow);
+    font-weight: bold;
+    font-size: 0.9em;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.atributo-valor-small {
+    color: var(--cyber-blue);
+    font-size: 1.5em;
+    margin-top: 10px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+
+@media (max-width: 768px) {
+    .graficos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .atributos-display {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .special-container {
+        max-width: 100%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .quiz-container {
+        max-width: 100%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .dashboard-container {
+        max-width: 100%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .dashboard-titulo {
+        font-size: 1.8em;
+    }
+
+    .quiz-titulo {
+        font-size: 1.4em;
+    }
+
+    .score-grande {
+        font-size: 2em;
+    }
+
+    .score-percentual {
+        font-size: 1.4em;
+    }
+
+    .botoes-finais {
+        flex-direction: column;
+    }
+
+    .botao-acao {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .atributos-display {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .atributo-grupo {
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+
+    .pergunta-container {
+        padding: 15px;
+    }
+
+    .opcao-botao {
+        padding: 12px 15px;
+        font-size: 0.9em;
+    }
+
+    .botoes-navegacao {
+        gap: 10px;
+    }
+
+    .botao-nav {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
