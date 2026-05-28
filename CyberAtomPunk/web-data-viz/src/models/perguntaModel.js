@@ -63,13 +63,13 @@ function salvarResposta(idUsuario, idPergunta, idOpcao, passou) {
 function buscarResultadoQuiz(idUsuario) {
     // Explicação:
     // COUNT(*) = "conte quantas linhas tem"
-    // SUM(passou) = "some todos os valores de passou (1+1+0+1 = 3)"
+    // COALESCE(SUM(passou), 0) = "some todos os valores de passou, mas se for NULL retorna 0"
     // GROUP BY fk_usuario = "agrupe por usuário"
 
     var sql = `
         SELECT 
             COUNT(*) as total_opcoes,
-            SUM(passou) as opcoes_certas,
+            COALESCE(SUM(passou), 0) as opcoes_certas,
             COUNT(DISTINCT fk_pergunta) as total_perguntas
         FROM resultado_quiz
         WHERE fk_usuario = ${idUsuario}

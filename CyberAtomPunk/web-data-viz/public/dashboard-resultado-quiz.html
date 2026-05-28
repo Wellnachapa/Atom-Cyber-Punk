@@ -113,6 +113,12 @@
             }
 
             // PASSO 2: Pegar o perfil SPECIAL do sessionStorage (foi salvo em quiz-especial.html)
+            if (!sessionStorage.PERFIL_SPECIAL) {
+                console.error("ERRO: PERFIL_SPECIAL não encontrado no sessionStorage");
+                document.querySelector('.dashboard-container').innerHTML = '<p style="color: #ff0000; text-align: center;">Erro: Perfil SPECIAL não encontrado!</p>';
+                return;
+            }
+
             perfilUsuario = JSON.parse(sessionStorage.PERFIL_SPECIAL);
             console.log("Perfil SPECIAL recuperado:", perfilUsuario);
 
@@ -121,34 +127,57 @@
 
             // PASSO 4: Buscar o resultado do quiz no servidor
             // Esta é a rota GET /perguntas/resultado/:idUsuario que criamos
+            console.log("Iniciando busca do resultado...");
             fetch("/perguntas/resultado/" + idUsuario)
                 .then(function(resposta) {
+                    console.log("Resposta do servidor - Status:", resposta.status);
+                    
+                    if (!resposta.ok) {
+                        throw new Error("Erro HTTP: " + resposta.status);
+                    }
+                    
                     return resposta.json();
                 })
                 .then(function(dados) {
                     console.log("Resultado recebido do servidor:", dados);
 
+                    if (!dados) {
+                        throw new Error("Dados vazios recebidos do servidor");
+                    }
+
                     // PASSO 5: Guardar o resultado
                     resultadoQuiz = dados;
 
-                    // PASSO 6: Mostrar os números de acertos/erros
-                    document.getElementById('acertos-totais').textContent = dados.opcoes_certas + '/' + dados.total_opcoes;
+                    // PASSO 6: Validar os dados
+                    var opcoesCertas = dados.opcoes_certas || 0;
+                    var totalOpcoes = dados.total_opcoes || 0;
+
+                    if (totalOpcoes === 0) {
+                        throw new Error("Total de opções é zero!");
+                    }
+
+                    // PASSO 7: Mostrar os números de acertos/erros
+                    document.getElementById('acertos-totais').textContent = opcoesCertas + '/' + totalOpcoes;
 
                     // Calcular percentual
-                    var percentual = Math.round((dados.opcoes_certas / dados.total_opcoes) * 100);
+                    var percentual = Math.round((opcoesCertas / totalOpcoes) * 100);
                     document.getElementById('percentual-acertos').textContent = percentual + '%';
 
-                    console.log("Acertos:", dados.opcoes_certas);
-                    console.log("Total:", dados.total_opcoes);
+                    console.log("Acertos:", opcoesCertas);
+                    console.log("Total:", totalOpcoes);
                     console.log("Percentual:", percentual);
 
-                    // PASSO 7: Criar os gráficos
-                    criarGraficoRadar();
-                    criarGraficoAcertos(dados.opcoes_certas, dados.total_opcoes - dados.opcoes_certas);
+                    // PASSO 8: Aguardar um pouco para os canvas ficarem prontos
+                    setTimeout(function() {
+                        console.log("Criando gráficos...");
+                        criarGraficoRadar();
+                        criarGraficoAcertos(opcoesCertas, totalOpcoes - opcoesCertas);
+                    }, 100);
                 })
                 .catch(function(erro) {
-                    console.log("ERRO ao buscar resultado:", erro);
-                    document.querySelector('.dashboard-container').innerHTML += '<p style="color: #ff0000; text-align: center;">Erro ao carregar resultado!</p>';
+                    console.error("ERRO ao buscar resultado:", erro);
+                    console.error("Stack:", erro.stack);
+                    document.querySelector('.dashboard-container').innerHTML += '<p style="color: #ff0000; text-align: center;">Erro ao carregar resultado: ' + erro.message + '</p>';
                 });
         }
 
@@ -190,98 +219,121 @@
             // Quanto mais perto do centro, menor o valor
             // Quanto mais perto da borda, maior o valor
 
-            // PASSO 1: Pegar o contexto do canvas (é onde o gráfico vai ser desenhado)
-            var ctx = document.getElementById('graficoRadar').getContext('2d');
+            try {
+                // PASSO 1: Pegar o contexto do canvas (é onde o gráfico vai ser desenhado)
+                var canvasRadar = document.getElementById('graficoRadar');
+                
+                if (!canvasRadar) {
+                    console.error("ERRO: Canvas com ID 'graficoRadar' não encontrado!");
+                    return;
+                }
 
-            // PASSO 2: Criar um novo gráfico Chart.js
-            var grafico = new Chart(ctx, {
-                // Tipo: 'radar' = gráfico de radar
-                type: 'radar',
-                
-                data: {
-                    // Labels = os nomes dos atributos
-                    labels: ['Strength', 'Perception', 'Endurance', 'Charisma', 'Intelligence', 'Agility', 'Luck'],
+                console.log("Canvas Radar encontrado:", canvasRadar);
+                console.log("Canvas Radar dimensões:", canvasRadar.width, "x", canvasRadar.height);
+
+                var ctx = canvasRadar.getContext('2d');
+
+                // Validar dados do perfil
+                if (!perfilUsuario || typeof perfilUsuario !== 'object') {
+                    console.error("ERRO: Perfil do usuário inválido:", perfilUsuario);
+                    return;
+                }
+
+                console.log("Dados do perfil:", perfilUsuario);
+
+                // PASSO 2: Criar um novo gráfico Chart.js
+                var grafico = new Chart(ctx, {
+                    // Tipo: 'radar' = gráfico de radar
+                    type: 'radar',
                     
-                    datasets: [{
-                        label: 'Seu S.P.E.C.I.A.L',
+                    data: {
+                        // Labels = os nomes dos atributos
+                        labels: ['Strength', 'Perception', 'Endurance', 'Charisma', 'Intelligence', 'Agility', 'Luck'],
                         
-                        // Data = os valores (quantos pontos em cada atributo)
-                        data: [
-                            perfilUsuario.strength,
-                            perfilUsuario.perception,
-                            perfilUsuario.endurance,
-                            perfilUsuario.charisma,
-                            perfilUsuario.intelligence,
-                            perfilUsuario.agility,
-                            perfilUsuario.luck
-                        ],
-                        
-                        // Cor de fundo (semi-transparente)
-                        backgroundColor: 'rgba(255, 215, 0, 0.3)',
-                        
-                        // Cor da linha (mais opaca)
-                        borderColor: '#ffd700',
-                        
-                        // Espessura da linha
-                        borderWidth: 2,
-                        
-                        // Cor dos pontos
-                        pointBackgroundColor: '#ffd700',
-                        
-                        // Cor da borda dos pontos
-                        pointBorderColor: '#00d4ff',
-                        
-                        // Tamanho dos pontos
-                        pointRadius: 5
-                    }]
-                },
-                
-                options: {
-                    // Responsivo = adapta ao tamanho da tela
-                    responsive: true,
+                        datasets: [{
+                            label: 'Seu S.P.E.C.I.A.L',
+                            
+                            // Data = os valores (quantos pontos em cada atributo)
+                            data: [
+                                perfilUsuario.strength || 1,
+                                perfilUsuario.perception || 1,
+                                perfilUsuario.endurance || 1,
+                                perfilUsuario.charisma || 1,
+                                perfilUsuario.intelligence || 1,
+                                perfilUsuario.agility || 1,
+                                perfilUsuario.luck || 1
+                            ],
+                            
+                            // Cor de fundo (semi-transparente)
+                            backgroundColor: 'rgba(255, 215, 0, 0.3)',
+                            
+                            // Cor da linha (mais opaca)
+                            borderColor: '#ffd700',
+                            
+                            // Espessura da linha
+                            borderWidth: 2,
+                            
+                            // Cor dos pontos
+                            pointBackgroundColor: '#ffd700',
+                            
+                            // Cor da borda dos pontos
+                            pointBorderColor: '#00d4ff',
+                            
+                            // Tamanho dos pontos
+                            pointRadius: 5
+                        }]
+                    },
                     
-                    // Manter proporção
-                    maintainAspectRatio: false,
-                    
-                    // Configurações dos labels (nomes dos atributos)
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#ffd700',
-                                font: {
-                                    size: 14
+                    options: {
+                        // Responsivo = adapta ao tamanho da tela
+                        responsive: true,
+                        
+                        // Manter proporção
+                        maintainAspectRatio: false,
+                        
+                        // Configurações dos labels (nomes dos atributos)
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#ffd700',
+                                    font: {
+                                        size: 14
+                                    }
+                                }
+                            }
+                        },
+                        
+                        // Configuração da escala (de 0 a 10)
+                        scales: {
+                            r: {
+                                // Mínimo: 0, Máximo: 10
+                                min: 0,
+                                max: 10,
+                                
+                                // Cor das linhas da grade
+                                grid: {
+                                    color: 'rgba(255, 215, 0, 0.1)'
+                                },
+                                
+                                // Cor dos números da escala
+                                ticks: {
+                                    color: '#ffd700'
+                                },
+                                
+                                // Cor da linha da escala
+                                axis: {
+                                    color: '#ffd700'
                                 }
                             }
                         }
-                    },
-                    
-                    // Configuração da escala (de 0 a 10)
-                    scales: {
-                        r: {
-                            // Mínimo: 0, Máximo: 10
-                            min: 0,
-                            max: 10,
-                            
-                            // Cor das linhas da grade
-                            grid: {
-                                color: 'rgba(255, 215, 0, 0.1)'
-                            },
-                            
-                            // Cor dos números da escala
-                            ticks: {
-                                color: '#ffd700'
-                            },
-                            
-                            // Cor da linha da escala
-                            axis: {
-                                color: '#ffd700'
-                            }
-                        }
                     }
-                }
-            });
+                });
 
-            console.log("Gráfico Radar criado!");
+                console.log("✓ Gráfico Radar criado com sucesso!");
+            } catch (erro) {
+                console.error("ERRO ao criar gráfico radar:", erro);
+                console.error("Stack:", erro.stack);
+            }
         }
 
 
@@ -292,86 +344,101 @@
             // - Uma azul para ACERTOS
             // - Uma vermelha para ERROS
 
-            // PASSO 1: Pegar o contexto do canvas
-            var ctx = document.getElementById('graficoAcertos').getContext('2d');
+            try {
+                // PASSO 1: Pegar o contexto do canvas
+                var canvasAcertos = document.getElementById('graficoAcertos');
+                
+                if (!canvasAcertos) {
+                    console.error("ERRO: Canvas com ID 'graficoAcertos' não encontrado!");
+                    return;
+                }
 
-            // PASSO 2: Criar um novo gráfico Chart.js
-            var grafico = new Chart(ctx, {
-                // Tipo: 'bar' = gráfico de colunas
-                type: 'bar',
-                
-                data: {
-                    // Labels = apenas um (o nome do eixo X)
-                    labels: ['Resultado'],
+                console.log("Canvas Acertos encontrado:", canvasAcertos);
+                console.log("Dados - Acertos:", acertos, "Erros:", erros);
+
+                var ctx = canvasAcertos.getContext('2d');
+
+                // PASSO 2: Criar um novo gráfico Chart.js
+                var grafico = new Chart(ctx, {
+                    // Tipo: 'bar' = gráfico de colunas
+                    type: 'bar',
                     
-                    datasets: [
-                        {
-                            // Primeira coluna = ACERTOS
-                            label: 'Acertos',
-                            data: [acertos],
-                            backgroundColor: 'rgba(0, 255, 0, 0.7)',  // Verde
-                            borderColor: '#00ff00',
-                            borderWidth: 2
+                    data: {
+                        // Labels = apenas um (o nome do eixo X)
+                        labels: ['Resultado'],
+                        
+                        datasets: [
+                            {
+                                // Primeira coluna = ACERTOS
+                                label: 'Acertos',
+                                data: [acertos],
+                                backgroundColor: 'rgba(0, 255, 0, 0.7)',  // Verde
+                                borderColor: '#00ff00',
+                                borderWidth: 2
+                            },
+                            {
+                                // Segunda coluna = ERROS
+                                label: 'Erros',
+                                data: [erros],
+                                backgroundColor: 'rgba(255, 0, 0, 0.7)',  // Vermelho
+                                borderColor: '#ff0000',
+                                borderWidth: 2
+                            }
+                        ]
+                    },
+                    
+                    options: {
+                        // Responsivo
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        
+                        // Configurações dos labels
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#ffd700',
+                                    font: {
+                                        size: 14
+                                    }
+                                }
+                            }
                         },
-                        {
-                            // Segunda coluna = ERROS
-                            label: 'Erros',
-                            data: [erros],
-                            backgroundColor: 'rgba(255, 0, 0, 0.7)',  // Vermelho
-                            borderColor: '#ff0000',
-                            borderWidth: 2
-                        }
-                    ]
-                },
-                
-                options: {
-                    // Responsivo
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    
-                    // Configurações dos labels
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#ffd700',
-                                font: {
-                                    size: 14
+                        
+                        // Configuração dos eixos
+                        scales: {
+                            x: {
+                                // Cor dos labels do eixo X
+                                ticks: {
+                                    color: '#ffd700'
+                                },
+                                // Cor da grid
+                                grid: {
+                                    color: 'rgba(255, 215, 0, 0.1)'
+                                }
+                            },
+                            y: {
+                                // Começar do 0
+                                beginAtZero: true,
+                                
+                                // Cor dos labels do eixo Y
+                                ticks: {
+                                    color: '#ffd700'
+                                },
+                                
+                                // Cor da grid
+                                grid: {
+                                    color: 'rgba(255, 215, 0, 0.1)'
                                 }
                             }
                         }
-                    },
-                    
-                    // Configuração dos eixos
-                    scales: {
-                        x: {
-                            // Cor dos labels do eixo X
-                            ticks: {
-                                color: '#ffd700'
-                            },
-                            // Cor da grid
-                            grid: {
-                                color: 'rgba(255, 215, 0, 0.1)'
-                            }
-                        },
-                        y: {
-                            // Começar do 0
-                            beginAtZero: true,
-                            
-                            // Cor dos labels do eixo Y
-                            ticks: {
-                                color: '#ffd700'
-                            },
-                            
-                            // Cor da grid
-                            grid: {
-                                color: 'rgba(255, 215, 0, 0.1)'
-                            }
-                        }
                     }
-                }
-            });
+                });
 
-            console.log("Gráfico de Acertos criado!");
+                console.log("✓ Gráfico de Acertos criado com sucesso!");
+            } catch (erro) {
+                console.error("ERRO ao criar gráfico de acertos:", erro);
+                console.error("Stack:", erro.stack);
+            }
         }
 
 
