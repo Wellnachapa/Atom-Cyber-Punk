@@ -178,10 +178,36 @@ function buscarResultado(req, res) {
         });
 }
 
+// FUNÇÃO 5: LIMPAR RESPOSTAS ANTERIORES DO QUIZ
+function limparRespostasQuiz(req, res) {
+    var idUsuario = req.params.idUsuario;
+
+    console.log("Solicitação para limpar respostas do usuário: " + idUsuario);
+
+    if (idUsuario == undefined) {
+        res.status(400).send("ID do usuário está undefined!");
+        return;
+    }
+
+    perguntaModel.limparRespostasUsuario(idUsuario)
+        .then(function (resultado) {
+            console.log("Respostas anteriores removidas com sucesso:", resultado);
+            res.status(200).json({
+                mensagem: "Respostas antigas removidas. Você pode refazer o quiz agora.",
+                linhasRemovidas: resultado.affectedRows
+            });
+        })
+        .catch(function (erro) {
+            console.log("ERRO ao limpar respostas: " + erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 // Exportar as funções
 module.exports = {
     listarPerguntas,
     buscarPergunta,
     responderPergunta,
-    buscarResultado
+    buscarResultado,
+    limparRespostasQuiz
 };

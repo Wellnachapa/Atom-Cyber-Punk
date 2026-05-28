@@ -187,7 +187,7 @@
             // Esta função mostra os 7 atributos SPECIAL em cards
             
             var atributos = [
-                {label: 'Strength', valor: perfilUsuario.strength },
+                { nome: 'S', label: 'Strength', valor: perfilUsuario.strength },
                 { nome: 'P', label: 'Perception', valor: perfilUsuario.perception },
                 { nome: 'E', label: 'Endurance', valor: perfilUsuario.endurance },
                 { nome: 'C', label: 'Charisma', valor: perfilUsuario.charisma },
@@ -444,11 +444,32 @@
 
         // ========== FUNÇÃO 5: REFAZER QUIZ ==========
         function refazerQuiz() {
-            // Remove o perfil anterior do sessionStorage
-            sessionStorage.removeItem('PERFIL_SPECIAL');
+            var urlParams = new URLSearchParams(window.location.search);
+            var idUsuario = urlParams.get('usuarioId');
 
-            // Volta para quiz-especial.html para distribuir os pontos novamente
-            window.location = "./quiz-especial.html";
+            if (!idUsuario) {
+                alert('ID do usuário não encontrado. Faça login novamente para refazer o quiz.');
+                return;
+            }
+
+            fetch('/perguntas/limpar/' + idUsuario, {
+                method: 'DELETE'
+            })
+            .then(function(resposta) {
+                if (!resposta.ok) {
+                    throw new Error('Erro ao limpar respostas.');
+                }
+                return resposta.json();
+            })
+            .then(function(dados) {
+                console.log('Respostas antigas removidas:', dados);
+                alert('Você pode refazer o quiz agora!');
+                window.location = './quiz.html';
+            })
+            .catch(function(erro) {
+                console.error('Erro ao limpar respostas:', erro);
+                alert('Não foi possível refazer o quiz. Tente novamente.');
+            });
         }
 
 

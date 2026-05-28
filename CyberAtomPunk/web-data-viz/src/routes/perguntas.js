@@ -40,6 +40,13 @@ router.get("/resultado/:idUsuario", function (req, res) {
     perguntaController.buscarResultado(req, res);
 });
 
+// Rota 4B: DELETE /perguntas/limpar/:idUsuario
+// O que faz: Remove as respostas anteriores do quiz para que o usuário possa refazer
+// Exemplo: /perguntas/limpar/1 → Remove respostas do usuário 1
+router.delete("/limpar/:idUsuario", function (req, res) {
+    perguntaController.limparRespostasQuiz(req, res);
+});
+
 // ========== ROTAS DE PERFIL SPECIAL ==========
 
 // Rota 5: POST /perguntas/perfil/criar

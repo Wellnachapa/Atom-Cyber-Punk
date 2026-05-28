@@ -80,10 +80,27 @@ function buscarResultadoQuiz(idUsuario) {
     return db.executar(sql);
 }
 
+// Função para LIMPAR RESPOSTAS ANTERIORES DO QUIZ
+function limparRespostasUsuario(idUsuario) {
+    // Explicação:
+    // DELETE FROM = remove linhas do banco
+    // WHERE fk_usuario = ? = somente as respostas desse usuário
+
+    var sql = `
+        DELETE FROM resultado_quiz
+        WHERE fk_usuario = ${idUsuario}
+    `;
+
+    console.log("Limpando respostas anteriores do usuário " + idUsuario + ":\n" + sql);
+
+    return db.executar(sql);
+}
+
 // Exportar as funções
 module.exports = {
     buscarTodasPerguntas,
     buscarPerguntaComOpcoes,
     salvarResposta,
-    buscarResultadoQuiz
+    buscarResultadoQuiz,
+    limparRespostasUsuario
 };
