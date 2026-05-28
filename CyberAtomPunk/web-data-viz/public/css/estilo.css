@@ -441,24 +441,14 @@ nav {
  
 /* seção de contraste*/
 .contrast-section {
-  
+  background: #000;
   padding: 100px 80px;
   position: relative;
   overflow: hidden;
 }
  
 .contrast-section::before {
-  content: 'CONTRAST';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18vw;
-  color: #ffffff04;
-  white-space: nowrap;
-  pointer-events: none;
-  letter-spacing: 0.1em;
+  content: none;
 }
  
 .contrast-header {
