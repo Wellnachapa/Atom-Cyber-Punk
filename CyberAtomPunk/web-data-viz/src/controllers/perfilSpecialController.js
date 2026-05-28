@@ -1,5 +1,5 @@
 // perfilSpecialController.js
-// Este arquivo gerencia o SPECIAL do usuário - recebe os 33 pontos distribuídos
+// Este arquivo gerencia o SPECIAL do usuário - recebe os 40 pontos distribuídos
 
 var perfilSpecialModel = require("../models/perfilSpecialModel");
 
@@ -48,14 +48,14 @@ function criarPerfilSpecial(req, res) {
         return;
     }
 
-    // Validação - verificar se o total é 33 pontos
+    // Validação - verificar se o total é 40 pontos
     var totalPontos = parseInt(strength) + parseInt(perception) + parseInt(endurance) + 
                       parseInt(charisma) + parseInt(intelligence) + parseInt(agility) + parseInt(luck);
 
     console.log("Total de pontos distribuídos: " + totalPontos);
 
-    if (totalPontos !== 33) {
-        res.status(400).send("Total de pontos deve ser 33! Você tem " + totalPontos);
+    if (totalPontos !== 40) {
+        res.status(400).send("Total de pontos deve ser 40! Você tem " + totalPontos);
         return;
     }
 
@@ -129,8 +129,8 @@ function atualizarPerfil(req, res) {
     var totalPontos = parseInt(strength) + parseInt(perception) + parseInt(endurance) + 
                       parseInt(charisma) + parseInt(intelligence) + parseInt(agility) + parseInt(luck);
 
-    if (totalPontos !== 33) {
-        res.status(400).send("Total de pontos deve ser 33! Você tem " + totalPontos);
+    if (totalPontos !== 40) {
+        res.status(400).send("Total de pontos deve ser 40! Você tem " + totalPontos);
         return;
     }
 

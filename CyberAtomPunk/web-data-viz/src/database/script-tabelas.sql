@@ -65,7 +65,7 @@ CREATE TABLE perfil_special (
 	intelligence INT NOT NULL,       -- I = Inteligência (1-10)
 	agility INT NOT NULL,            -- A = Agilidade (1-10)
 	luck INT NOT NULL,               -- L = Sorte (1-10)
-	pontos_usados INT NOT NULL,      -- Total gasto (deve ser 33)
+	pontos_usados INT NOT NULL,      -- Total gasto (deve ser 40)
 	data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
 );

@@ -44,7 +44,7 @@ router.get("/resultado/:idUsuario", function (req, res) {
 
 // Rota 5: POST /perguntas/perfil/criar
 // O que faz: CRIA um novo perfil SPECIAL para o usuário
-// É chamada quando o usuário termina de distribuir os 33 pontos
+// É chamada quando o usuário termina de distribuir os 40 pontos
 // Chamada do frontend: fetch("/perguntas/perfil/criar", { method: "POST", ... })
 router.post("/perfil/criar", function (req, res) {
     perfilSpecialController.criarPerfilSpecial(req, res);
