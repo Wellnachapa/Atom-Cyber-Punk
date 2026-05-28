@@ -28,7 +28,7 @@
 
     <div class="quiz-container">
         <div class="quiz-header">
-            <h1 class="quiz-titulo">⚔️ QUIZ</h1>
+            <h1 class="quiz-titulo">QUIZ</h1>
             <p class="quiz-progresso">
                 Pergunta <span id="pergunta-atual">1</span> de <span id="total-perguntas">3</span>
             </p>
@@ -52,7 +52,7 @@
         <!-- Se for a última pergunta, mostra botão de finalizar -->
         <div style="text-align: center; margin-top: 20px;">
             <button class="botao-nav" id="botao-finalizar" onclick="finalizarQuiz()" style="display: none; background: #ff6b6b;">
-                FINALIZAR🏁
+                FINALIZAR
             </button>
         </div>
     </div>
@@ -152,13 +152,13 @@
                         // Mostrar requisitos de atributos SPECIAL
                         if (opcaoAtual.atributo_requerido) {
                             var mapaEmojis = {
-                                'strength': '💪',
-                                'perception': '👁️',
-                                'endurance': '❤️',
-                                'charisma': '😊',
-                                'intelligence': '🧠',
-                                'agility': '🏃',
-                                'luck': '🍀'
+                                'strength': 'S',
+                                'perception': 'P',
+                                'endurance': 'E',
+                                'charisma': 'C',
+                                'intelligence': 'I',
+                                'agility': 'A',
+                                'luck': 'L'
                             };
                             var emoji = mapaEmojis[opcaoAtual.atributo_requerido] || '?';
                             template += '<span class="opcao-requisito">[' + emoji + ' ' + opcaoAtual.atributo_requerido + ' ' + opcaoAtual.pontos_necessarios + ']</span>';
@@ -198,7 +198,7 @@
                 })
                 .catch(function(erro) {
                     console.error("[FALLOUT] Erro ao carregar opções:", erro);
-                    document.getElementById('conteudo-quiz').innerHTML = '<p style="color: #ff0000;">⚠️ Erro ao carregar as opções deste desafio!</p>';
+                    document.getElementById('conteudo-quiz').innerHTML = '<p style="color: #ff0000;">Erro ao carregar as opções deste desafio!</p>';
                 });
         }
 
@@ -284,7 +284,7 @@
         function proximaPergunta() {
             // Validar se pergunta atual foi respondida
             if (respostasDaJornada[indicePerguntaAtual] === null) {
-                alert("⚠️ Você precisa responder este desafio antes de prosseguir!");
+                alert("Você precisa responder este desafio antes de prosseguir!");
                 return;
             }
 
