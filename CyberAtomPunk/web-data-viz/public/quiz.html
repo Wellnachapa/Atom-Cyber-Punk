@@ -152,13 +152,13 @@
                         // Mostrar requisitos de atributos SPECIAL
                         if (opcaoAtual.atributo_requerido) {
                             var mapaEmojis = {
-                                'strength': 'S',
-                                'perception': 'P',
-                                'endurance': 'E',
-                                'charisma': 'C',
-                                'intelligence': 'I',
-                                'agility': 'A',
-                                'luck': 'L'
+                                'strength':'S',
+                                'perception':'P',
+                                'endurance':'E',
+                                'charisma':'C',
+                                'intelligence':'I',
+                                'agility':'A',
+                                'luck':'L'
                             };
                             var emoji = mapaEmojis[opcaoAtual.atributo_requerido] || '?';
                             template += '<span class="opcao-requisito">[' + emoji + ' ' + opcaoAtual.atributo_requerido + ' ' + opcaoAtual.pontos_necessarios + ']</span>';
