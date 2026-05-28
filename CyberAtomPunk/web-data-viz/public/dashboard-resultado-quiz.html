@@ -31,9 +31,8 @@
 
     <div class="dashboard-container">
         <h1 class="dashboard-titulo">RESULTADO FINAL</h1>
-        <p class="dashboard-subtitulo">// ANÁLISE DO SEU DESEMPENHO</p>
+        <p class="dashboard-subtitulo">ANÁLISE DO SEU DESEMPENHO</p>
 
-        <!-- Resultado geral (acertos/erros) -->
         <div class="resultado-geral">
             <h2 style="color: #00d4ff;">Desempenho no Quiz</h2>
             <div class="score-grande" id="acertos-totais">0/0</div>
@@ -41,26 +40,21 @@
             <p style="color: #888; font-size: 1em;">Questões respondidas corretamente</p>
         </div>
 
-        <!-- Mostrar o perfil SPECIAL do usuário -->
         <div style="background: rgba(255, 215, 0, 0.05); padding: 20px; border-radius: 10px; margin-bottom: 30px;">
             <h3 style="color: #ffd700; text-align: center;">Seu Perfil S.P.E.C.I.A.L</h3>
             <div class="atributos-display" id="perfil-special-display">
-                <!-- Será preenchido pelo JavaScript -->
             </div>
         </div>
 
-        <!-- Os DOIS GRÁFICOS -->
+        <!-- graficos -->
         <div class="graficos-grid">
-            <!-- GRÁFICO 1: RADAR DO SPECIAL -->
             <div class="grafico-container">
                 <h3 class="grafico-titulo">Seu S.P.E.C.I.A.L</h3>
                 <div class="grafico">
-                    <!-- Canvas é onde o Chart.js desenha o gráfico -->
                     <canvas id="graficoRadar"></canvas>
                 </div>
             </div>
 
-            <!-- GRÁFICO 2: COLUNAS DE ACERTOS/ERROS -->
             <div class="grafico-container">
                 <h3 class="grafico-titulo">Acertos vs Erros</h3>
                 <div class="grafico">
@@ -69,7 +63,6 @@
             </div>
         </div>
 
-        <!-- Botões para próximas ações -->
         <div class="botoes-finais">
             <button class="botao-acao" onclick="refazerQuiz()">
                 Refazer Quiz
@@ -91,12 +84,10 @@
     <script src="./js/sessao.js"></script>
 
     <script>
-        // ========== VARIÁVEIS GLOBAIS ==========
-        var perfilUsuario = {};      // Guarda o SPECIAL do usuário
-        var resultadoQuiz = {};      // Guarda o resultado (quantas acertou/errou)
+        var perfilUsuario = {};      // SPECIAL do usuário
+        var resultadoQuiz = {};      // resultado
 
 
-        // ========== FUNÇÃO 1: CARREGAR O RESULTADO ==========
         function carregarResultado() {
             // PASSO 1: Pegar o ID do usuário da URL
             // Exemplo: dashboard-resultado-quiz.html?usuarioId=1
@@ -112,7 +103,7 @@
                 return;
             }
 
-            // PASSO 2: Pegar o perfil SPECIAL do sessionStorage (foi salvo em quiz-especial.html)
+            //  pega o special e salva tipo um let ou var
             if (!sessionStorage.PERFIL_SPECIAL) {
                 console.error("ERRO: PERFIL_SPECIAL não encontrado no sessionStorage");
                 document.querySelector('.dashboard-container').innerHTML = '<p style="color: #ff0000; text-align: center;">Erro: Perfil SPECIAL não encontrado!</p>';
@@ -122,11 +113,10 @@
             perfilUsuario = JSON.parse(sessionStorage.PERFIL_SPECIAL);
             console.log("Perfil SPECIAL recuperado:", perfilUsuario);
 
-            // PASSO 3: Mostrar o perfil SPECIAL na tela
+            // Mostra SPECIAL na tela
             mostrarPerfilSpecial();
 
-            // PASSO 4: Buscar o resultado do quiz no servidor
-            // Esta é a rota GET /perguntas/resultado/:idUsuario que criamos
+            // buscar o resultado do quiz no servidor
             console.log("Iniciando busca do resultado...");
             fetch("/perguntas/resultado/" + idUsuario)
                 .then(function(resposta) {
@@ -145,10 +135,10 @@
                         throw new Error("Dados vazios recebidos do servidor");
                     }
 
-                    // PASSO 5: Guardar o resultado
+                    // guardar o resultado
                     resultadoQuiz = dados;
 
-                    // PASSO 6: Validar os dados
+                    // validar os dados
                     var opcoesCertas = dados.opcoes_certas || 0;
                     var totalOpcoes = dados.total_opcoes || 0;
 
@@ -156,10 +146,10 @@
                         throw new Error("Total de opções é zero!");
                     }
 
-                    // PASSO 7: Mostrar os números de acertos/erros
+                    // números de acertos/erros
                     document.getElementById('acertos-totais').textContent = opcoesCertas + '/' + totalOpcoes;
 
-                    // Calcular percentual
+                    // percentual
                     var percentual = Math.round((opcoesCertas / totalOpcoes) * 100);
                     document.getElementById('percentual-acertos').textContent = percentual + '%';
 
@@ -167,7 +157,6 @@
                     console.log("Total:", totalOpcoes);
                     console.log("Percentual:", percentual);
 
-                    // PASSO 8: Aguardar um pouco para os canvas ficarem prontos
                     setTimeout(function() {
                         console.log("Criando gráficos...");
                         criarGraficoRadar();
@@ -182,9 +171,8 @@
         }
 
 
-        // ========== FUNÇÃO 2: MOSTRAR PERFIL SPECIAL ==========
+        // Peril especial
         function mostrarPerfilSpecial() {
-            // Esta função mostra os 7 atributos SPECIAL em cards
             
             var atributos = [
                 { nome: 'S', label: 'Strength', valor: perfilUsuario.strength },
@@ -211,16 +199,11 @@
         }
 
 
-        // ========== FUNÇÃO 3: CRIAR GRÁFICO RADAR DO SPECIAL ==========
+        // Grafico 1
         function criarGraficoRadar() {
-            // EXPLICAÇÃO DO GRÁFICO RADAR:
-            // Um gráfico radar (também chamado de "spider chart") mostra múltiplas dimensões
-            // Cada ponto é um atributo SPECIAL
-            // Quanto mais perto do centro, menor o valor
-            // Quanto mais perto da borda, maior o valor
 
             try {
-                // PASSO 1: Pegar o contexto do canvas (é onde o gráfico vai ser desenhado)
+
                 var canvasRadar = document.getElementById('graficoRadar');
                 
                 if (!canvasRadar) {
@@ -233,7 +216,6 @@
 
                 var ctx = canvasRadar.getContext('2d');
 
-                // Validar dados do perfil
                 if (!perfilUsuario || typeof perfilUsuario !== 'object') {
                     console.error("ERRO: Perfil do usuário inválido:", perfilUsuario);
                     return;
@@ -241,45 +223,38 @@
 
                 console.log("Dados do perfil:", perfilUsuario);
 
-                // PASSO 2: Criar um novo gráfico Chart.js
                 var grafico = new Chart(ctx, {
-                    // Tipo: 'radar' = gráfico de radar
+                
                     type: 'radar',
                     
                     data: {
-                        // Labels = os nomes dos atributos
+
                         labels: ['Strength', 'Perception', 'Endurance', 'Charisma', 'Intelligence', 'Agility', 'Luck'],
                         
                         datasets: [{
-                            label: 'Seu S.P.E.C.I.A.L',
+                            label: 'S.P.E.C.I.A.L',
                             
-                            // Data = os valores (quantos pontos em cada atributo)
                             data: [
-                                perfilUsuario.strength || 1,
-                                perfilUsuario.perception || 1,
-                                perfilUsuario.endurance || 1,
-                                perfilUsuario.charisma || 1,
-                                perfilUsuario.intelligence || 1,
-                                perfilUsuario.agility || 1,
-                                perfilUsuario.luck || 1
-                            ],
+    
+                            parseInt(perfilUsuario.strength) || 1,
+                            parseInt(perfilUsuario.perception) || 1,
+                            parseInt(perfilUsuario.endurance) || 1,
+                            parseInt(perfilUsuario.charisma) || 1,
+                            parseInt(perfilUsuario.intelligence) || 1,
+                            parseInt(perfilUsuario.agility) || 1,
+                            parseInt(perfilUsuario.luck) || 1
+                        ],
                             
-                            // Cor de fundo (semi-transparente)
                             backgroundColor: 'rgba(255, 215, 0, 0.3)',
                             
-                            // Cor da linha (mais opaca)
                             borderColor: '#ffd700',
                             
-                            // Espessura da linha
                             borderWidth: 2,
+                        
+                            pointBackgroundColor: '#00d4ff',
                             
-                            // Cor dos pontos
-                            pointBackgroundColor: '#ffd700',
+                            pointBorderColor: '#ffd700',
                             
-                            // Cor da borda dos pontos
-                            pointBorderColor: '#00d4ff',
-                            
-                            // Tamanho dos pontos
                             pointRadius: 5
                         }]
                     },
@@ -317,17 +292,41 @@
                                 
                                 // Cor dos números da escala
                                 ticks: {
-                                    color: '#ffd700'
+                                    color: '#ffd700',
+                                    display: false
                                 },
                                 
                                 // Cor da linha da escala
-                                axis: {
-                                    color: '#ffd700'
+                                scales: {
+                                    r: {
+                                        min: 0,
+                                        max: 10,
+                                        grid: {
+                                            color: 'rgba(255, 215, 0, 0.1)'
+                                        },
+                                        ticks: {
+                                            color: '#ffd700',
+                                        
+                                        },
+                                        pointLabels: {
+                                            color: '#ffd700',
+                                             font: {
+                                                size: 13,
+                                                family: 'Arial'
+                                            },
+                                            callback: function(label) {
+                                                return label;}
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 });
+
+                // Essas duas linhas VÊM AQUI, fora do Chart
+                grafico.options.scales.r.pointLabels.color = '#ffd700';
+                grafico.update();
 
                 console.log("✓ Gráfico Radar criado com sucesso!");
             } catch (erro) {
