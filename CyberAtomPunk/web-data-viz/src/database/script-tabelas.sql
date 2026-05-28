@@ -47,9 +47,6 @@ CREATE TABLE aviso (
 	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
 );*/
 
-INSERT INTO usuario (nome, email, senha) VALUES
-('Well','Well.souza@sptech.school','12345678');
-
 /*insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
 insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);*/
 

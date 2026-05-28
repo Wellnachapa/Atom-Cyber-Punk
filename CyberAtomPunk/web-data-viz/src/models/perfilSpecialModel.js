@@ -12,7 +12,7 @@ function criarPerfil(idUsuario, strength, perception, endurance, charisma, intel
     var sql = `
         INSERT INTO perfil_special 
         (fk_usuario, strength, perception, endurance, charisma, intelligence, agility, luck, pontos_usados)
-        VALUES (${idUsuario}, ${strength}, ${perception}, ${endurance}, ${charisma}, ${intelligence}, ${agility}, ${luck}, 33)
+        VALUES (${idUsuario}, ${strength}, ${perception}, ${endurance}, ${charisma}, ${intelligence}, ${agility}, ${luck}, 40)
     `;
 
     console.log("Criando novo perfil SPECIAL:\n" + sql);
