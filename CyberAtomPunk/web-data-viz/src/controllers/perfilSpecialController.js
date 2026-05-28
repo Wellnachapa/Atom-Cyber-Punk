@@ -25,12 +25,21 @@ function criarPerfilSpecial(req, res) {
     var luck = req.body.luck;
 
     console.log("Criando perfil SPECIAL para usuário: " + idUsuario);
+    console.log("Dados recebidos:", JSON.stringify(req.body));
     console.log("Atributos: S=" + strength + " P=" + perception + " E=" + endurance + 
                 " C=" + charisma + " I=" + intelligence + " A=" + agility + " L=" + luck);
 
     // Validação - verificar se todos os dados foram enviados
-    if (idUsuario == undefined) {
-        res.status(400).send("ID do usuário está undefined!");
+    if (idUsuario == undefined || idUsuario == null || idUsuario == "") {
+        console.log("ERRO: idUsuario inválido -", idUsuario);
+        res.status(400).send("ID do usuário está undefined, null ou vazio!");
+        return;
+    }
+    
+    // Converter para número inteiro
+    idUsuario = parseInt(idUsuario);
+    if (isNaN(idUsuario)) {
+        res.status(400).send("ID do usuário deve ser um número válido!");
         return;
     }
     if (strength == undefined || perception == undefined || endurance == undefined ||

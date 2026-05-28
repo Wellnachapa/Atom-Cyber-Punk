@@ -258,10 +258,18 @@
             // Pega o ID do usuário do sessionStorage (foi salvo no login)
             var idUsuario = sessionStorage.ID_USUARIO;
 
-            if (idUsuario == undefined) {
-                document.getElementById('mensagem').innerHTML = '<p class="mensagem-erro">❌ Erro: Usuário não autenticado!</p>';
+            if (idUsuario == undefined || idUsuario == null || idUsuario == "") {
+                document.getElementById('mensagem').innerHTML = '<p class="mensagem-erro">❌ Erro: Usuário não autenticado! Faça login novamente.</p>';
+                console.error("ID_USUARIO não encontrado no sessionStorage. Valores disponíveis:", sessionStorage);
+                setTimeout(function() {
+                    window.location = "./login.html";
+                }, 2000);
                 return false;
             }
+
+            // Converter para número
+            idUsuario = parseInt(idUsuario);
+            console.log("ID do usuário convertido:", idUsuario, "Tipo:", typeof idUsuario);
 
             // Prepara os dados para ENVIAR ao backend
             var dados = {
@@ -276,6 +284,7 @@
             };
 
             console.log("Enviando para o servidor:", dados);
+            console.log("JSON convertido:", JSON.stringify(dados));
 
             // FETCH = Envia os dados para o servidor
             // Este comando comunica com a rota POST /perguntas/perfil/criar que criamos
@@ -299,7 +308,13 @@
                         window.location = "./quiz.html";
                     }, 2000);
                 } else {
-                    document.getElementById('mensagem').innerHTML = '<p class="mensagem-erro">❌ Erro ao salvar perfil!</p>';
+                    // Se recebeu erro, tenta ler a mensagem
+                    resposta.text().then(function(errorMsg) {
+                        console.error("Erro do servidor:", errorMsg);
+                        document.getElementById('mensagem').innerHTML = '<p class="mensagem-erro">❌ Erro ao salvar perfil: ' + errorMsg + '</p>';
+                    }).catch(function() {
+                        document.getElementById('mensagem').innerHTML = '<p class="mensagem-erro">❌ Erro ao salvar perfil! Status: ' + resposta.status + '</p>';
+                    });
                 }
             })
             .catch(function(erro) {
