@@ -76,41 +76,58 @@
         <span class="yellow">FALLOUT © BETHESDA SOFTWORKS ◈</span>
     </footer>
 
-    <script>
-        function entrar() {
-    var emailVar = email_input.value;
-    var senhaVar = senha_input.value;
+<script>
+    function emailValido(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
 
-    if (emailVar == "" || senhaVar == "") {
-        mostrarErro("// ERRO: Todos os campos são obrigatórios.");
+    function senhaValida(senha) {
+        return senha.length >= 6;
+    }
+
+    function entrar() {
+        var emailVar = email_input.value;
+        var senhaVar = senha_input.value;
+
+        if (emailVar == "" || senhaVar == "") {
+            mostrarErro("// ERRO: Todos os campos são obrigatórios.");
+            return false;
+        }
+
+        if (!emailValido(emailVar)) {
+            mostrarErro("// ERRO: Email inválido, samurai!");
+            return false;
+        }
+
+        if (!senhaValida(senhaVar)) {
+            mostrarErro("// ERRO: Senha precisa ter pelo menos 6 caracteres!");
+            return false;
+        }
+
+        fetch(`/usuarios/autenticar?emailServer=${emailVar}&senhaServer=${senhaVar}`, {
+            method: "GET"
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(json => {
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO  = json.nome;
+                    sessionStorage.ID_USUARIO    = json.id;
+                    window.location = "./quiz-especial.html";
+                });
+            } else {
+                resposta.text().then(texto => mostrarErro("// ERRO: " + texto));
+            }
+        }).catch(() => mostrarErro("// ERRO: Sem conexão com o servidor."));
+
         return false;
     }
 
-    fetch(`/usuarios/autenticar?emailServer=${emailVar}&senhaServer=${senhaVar}`, {
-        method: "GET"
-    }).then(function (resposta) {
-        if (resposta.ok) {
-            resposta.json().then(json => {
-                sessionStorage.EMAIL_USUARIO = json.email;
-                sessionStorage.NOME_USUARIO  = json.nome;
-                sessionStorage.ID_USUARIO    = json.id;
-                sessionStorage.AQUARIOS      = JSON.stringify(json.aquarios);
-                window.location = "./quiz-especial.html";
-            });
-        } else {
-            resposta.text().then(texto => mostrarErro("// ERRO: " + texto));
-        }
-    }).catch(() => mostrarErro("// ERRO: Sem conexão com o servidor."));
-
-    return false;
-}
-
-        function mostrarErro(msg) {
-            cardErro.className = 'card_erro';
-            mensagem_erro.innerHTML = msg;
-            cardErro.style.display = "block";
-            setTimeout(() => cardErro.style.display = "none", 5000);
-        }
-    </script>
+    function mostrarErro(msg) {
+        cardErro.className = 'card_erro';
+        mensagem_erro.innerHTML = msg;
+        cardErro.style.display = "block";
+        setTimeout(() => cardErro.style.display = "none", 5000);
+    }
+</script>
 </body>
 </html>

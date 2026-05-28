@@ -11,7 +11,7 @@
     <link rel="icon" href="./assets/icon/favicon2.ico">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     
-    <!-- IMPORTAR A BIBLIOTECA CHART.JS PARA FAZER OS GRÁFICOS -->
+    <!--Importa chratjs-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 </head>
 
@@ -89,8 +89,8 @@
 
 
         function carregarResultado() {
-            // PASSO 1: Pegar o ID do usuário da URL
-            // Exemplo: dashboard-resultado-quiz.html?usuarioId=1
+            //Pega o ID do usuário
+        
             var urlParams = new URLSearchParams(window.location.search);
             var idUsuario = urlParams.get('usuarioId');
 

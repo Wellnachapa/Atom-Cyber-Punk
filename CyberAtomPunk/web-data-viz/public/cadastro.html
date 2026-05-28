@@ -8,8 +8,6 @@
 
   <title>CyberAtom | Cadastro</title>
 
-  <script src="./js/sessao.js"></script>
-
   <link rel="stylesheet" href="./css/estilo.css" />
   <link rel="icon" href="./assets/icon/favicon2.ico" />
   <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -95,60 +93,75 @@
   </footer>
   
   <script src="js/sessao.js"></script>
-  <script>
+<script>
+    function emailValido(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function senhaValida(senha) {
+        return senha.length >= 6;
+    }
 
     function cadastrar() {
-      var nomeVar             = nome_input.value;
-      var emailVar            = email_input.value;
-      var senhaVar            = senha_input.value;
-      var confirmacaoSenhaVar = confirmacao_senha_input.value;
+        var nomeVar             = nome_input.value;
+        var emailVar            = email_input.value;
+        var senhaVar            = senha_input.value;
+        var confirmacaoSenhaVar = confirmacao_senha_input.value;
 
-      if (!nomeVar || !emailVar || !senhaVar || !confirmacaoSenhaVar) {
-        mostrarErro("Erro! Todos os campos são obrigatórios, bobão!");
-        return false;
-      }
+        if (!nomeVar || !emailVar || !senhaVar || !confirmacaoSenhaVar) {
+            mostrarErro("Erro! Todos os campos são obrigatórios, bobão!");
+            return false;
+        }
 
-      if (senhaVar !== confirmacaoSenhaVar) {
-        mostrarErro("Erro! As senhas não coincidem, digite certo!");
-        return false;
-      }
+        if (!emailValido(emailVar)) {
+            mostrarErro("Erro! Email inválido, samurai!");
+            return false;
+        }
 
-      fetch("/usuarios/cadastrar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nomeServer: nomeVar,
-          emailServer: emailVar,
-          senhaServer: senhaVar
-        }),
-      })
+        if (!senhaValida(senhaVar)) {
+            mostrarErro("Erro! A senha precisa ter pelo menos 6 caracteres!");
+            return false;
+        }
+
+        if (senhaVar !== confirmacaoSenhaVar) {
+            mostrarErro("Erro! As senhas não coincidem, digite certo!");
+            return false;
+        }
+
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                nomeServer: nomeVar,
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            }),
+        })
         .then(resposta => {
-          if (resposta.ok) {
-            mostrarSucesso("Samurai registrado. Redirecionando...");
-            setTimeout(() => window.location = "login.html", 2000);
-          } else {
-            mostrarErro("Erro! Samurai não é digno ainda! (Falha ao registrar)");
-          }
+            if (resposta.ok) {
+                mostrarSucesso("Samurai registrado. Redirecionando...");
+                setTimeout(() => window.location = "login.html", 2000);
+            } else {
+                mostrarErro("Erro! Samurai não é digno ainda! (Falha ao registrar)");
+            }
         })
         .catch(() => mostrarErro("Erro! Sem conexão em Nightcity! (Servidor off)"));
 
-      return false;
+        return false;
     }
 
     function mostrarErro(msg) {
-      cardErro.className = 'card_erro';
-      mensagem_erro.innerHTML = msg;
-      cardErro.style.display = "block";
-      setTimeout(() => cardErro.style.display = "none", 5000);
+        cardErro.className = 'card_erro';
+        mensagem_erro.innerHTML = msg;
+        cardErro.style.display = "block";
+        setTimeout(() => cardErro.style.display = "none", 5000);
     }
 
     function mostrarSucesso(msg) {
-      cardErro.className = 'card_erro success';
-      mensagem_erro.innerHTML = msg;
-      cardErro.style.display = "block";
+        cardErro.className = 'card_erro success';
+        mensagem_erro.innerHTML = msg;
+        cardErro.style.display = "block";
     }
-
-    listar();
-  </script>
+</script>
 </body>
 </html>

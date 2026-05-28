@@ -127,7 +127,7 @@ nav {
 .nav-links a.register { background: var(--atom-yellow); color: var(--black); font-weight: bold; }
 .nav-links a.register:hover { box-shadow: 0 0 30px var(--atom-yellow); transform: translateY(-1px); }
  
-/*HERO DIVISÃO DO MEIO */
+/*divisão do meio */
 .hero {
   min-height: 100vh;
   display: grid;
@@ -163,7 +163,7 @@ nav {
   border: 1px solid #333;
 }
  
-/*LADO CYBERPUNK (ESQUERO)*/
+/*lado cyberpunk*/
 .cyber-side {
   background: var(--black);
   display: flex;
@@ -198,7 +198,7 @@ nav {
   pointer-events: none;
 }
  
-/*LADO ATOMPUNK (DIREITO)*/
+/*lado atompunkk*/
 .atom-side {
   background: #080800;
   display: flex;
@@ -232,7 +232,7 @@ nav {
   pointer-events: none;
 }
  
-/*SCANLINES*/
+/*scanlineS*/
 .scanline {
   position: absolute;
   inset: 0;
@@ -335,9 +335,7 @@ nav {
   letter-spacing: 0.1em;
 }
  
-/* ============================================
-   ESTATÍSTICAS
-   ============================================ */
+/* estatisticas*/
 .stats-row {
   display: flex;
   gap: 32px;
@@ -366,9 +364,7 @@ nav {
   font-family: 'Share Tech Mono', monospace;
 }
  
-/* ============================================
-   BOTÃO CTA
-   ============================================ */
+/*botão cta*/
 .side-cta {
   display: inline-block;
   font-family: 'Share Tech Mono', monospace;
@@ -405,9 +401,7 @@ nav {
 .atom-side .side-cta:hover        { color: var(--black); box-shadow: 0 0 30px var(--atom-yellow); }
 .atom-side .side-cta:hover::before { left: 0; }
  
-/* ============================================
-   EFEITO GLITCH
-   ============================================ */
+/*Efeito glich*/
 .glitch { position: relative; }
  
 .glitch::before,
@@ -445,9 +439,7 @@ nav {
   96% { transform: translate(2px, 0); }
 }
  
-/* ============================================
-   SEÇÃO DE CONTRASTE
-   ============================================ */
+/* seção de contraste*/
 .contrast-section {
   
   padding: 100px 80px;
@@ -635,19 +627,6 @@ nav {
   line-height: 1.8;
   letter-spacing: 0.1em;
   animation: fadeInUp 1s ease 1s both;
-}
- 
-/*Responsabilidade*/
-@media (max-width: 900px) {
-  .hero                { grid-template-columns: 1fr; }
-  .hero-divider        { display: none; }
-  nav                  { padding: 0 20px; }
-  .nav-links a         { padding: 6px 12px; font-size: 0.7rem; }
-  .cyber-side,
-  .atom-side           { padding: 60px 32px; }
-  .contrast-section    { padding: 60px 24px; }
-  .contrast-grid       { grid-template-columns: 1fr; }
-  .contrast-center     { display: none; }
 }
 
 /*Cadastro*/
